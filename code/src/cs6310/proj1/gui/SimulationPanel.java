@@ -5,6 +5,7 @@
  */
 
 package cs6310.proj1.gui;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
