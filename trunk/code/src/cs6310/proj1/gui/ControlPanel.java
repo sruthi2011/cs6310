@@ -46,6 +46,7 @@ public class ControlPanel extends JPanel {
 	private void initialize() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		
 		setPreferredSize(new Dimension(560, 88));
 		//Type Label
 		typeLabel = new JLabel();
