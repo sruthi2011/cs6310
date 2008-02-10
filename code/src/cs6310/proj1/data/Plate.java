@@ -11,12 +11,22 @@ package cs6310.proj1.data;
  *
  */
 public abstract class Plate {
+	protected Option option;
+	protected boolean stopFlag;
+	
+	public Plate() {
+		stopFlag = false;
+	}
+	
 	public abstract boolean compute();
-	public abstract void stop();
+	public void stop() {
+		stopFlag = true;
+	}
 	public abstract void display();
+	public abstract void init();
 	
 	public void setOption(Option option) {
-
+		this.option = option;
 	}
 	
 	public void addListener(PlateListener listener) {
