@@ -13,6 +13,22 @@ public class EdgeTemperature {
 	private float top;
 	private float right;
 	private float bottom;
+	
+	/**
+	 * @param edge temperature values to be set
+	 */
+	EdgeTemperature(float left, float top, float right, float bottom) {
+		this.left = left;
+		this.top = top;
+		this.right = right;
+		this.bottom = bottom;
+	}
+	/**
+	 * @see default constructor
+	 */
+	public EdgeTemperature() {
+		// TODO Auto-generated constructor stub
+	}
 	/**
      * @return the left
      */
