@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import cs6310.proj1.data.DoubleCell;
 import cs6310.proj1.data.EdgeTemperature;
+import cs6310.proj1.data.Option;
 
 /**
  * @author Nagesh
@@ -32,34 +33,59 @@ public class doPlate extends ObjectPlate {
 		int dimension = option.getDimension();
 		int maxIterations = option.getMaxIterations();
 		int iterationCount = 0;
+		double temperature;
+		DoubleCell cell;
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
-			//double temperature;
-			/*
+			
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
-					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
-									  cells[i - 1][j] + cells[i + 1][j]) / 4.0;
-					//if (true == done && stopPrecision > (newCells[i][j] - cells[i][j])) { -- can be faster
-					if (stopPrecision > (newCells[i][j] - cells[i][j])) {
+					temperature = 0.0;
+					cell = cells[i][j];
+					
+					cell.initNeighborIterator();					
+					while (cell.hasMoreNeighbors()) {
+						temperature += cell.getNextNeighborsTemp();
+					}
+					
+					newCells[i][j].setTemperature(temperature / cell.getNoOfNeighbors());
+					//if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) { -- can be faster
+					if (stopPrecision < (newCells[i][j].getTemperature() - cell.getTemperature())) {
 						done = false;
 					}
 				}
 			}
-			updateCells();
+			swap();
 			iterationCount++;
 				
 			if (true == done) {
 				break;
 			}
-			*/
+			
 		}
 		// TODO Auto-generated method stub
 		return true;
 
 	}
 
+	private void swap() {
+		// TODO Auto-generated method stub
+		DoubleCell [][]temp;
+		
+		temp = cells;
+		cells = newCells;
+		newCells = temp;
+		
+		/*
+		int dimension = option.getDimension();
+		for (int i = 1; i <= dimension; i++) {
+			for (int j = 1; j <= dimension; j++) {
+				cells[i][j].setTemperature(newCells[i][j].getTemperature());
+			}
+		}
+		*/		
+	}
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#display()
 	 */
@@ -81,6 +107,19 @@ public class doPlate extends ObjectPlate {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Option option = new Option();
+		boolean status = option.parseArgs(args);
+		if (true == status) {
+			doPlate plate = new doPlate();
+			plate.setOption(option);
+			plate.init();
+			plate.compute();
+			plate.display();
+		}
+		else {
+			System.out.println("error parsing arguments.");
+			System.out.println("Usage: <program_name> -d # -l # -r # -t # -b #");
+		}		
 
 	}
 
@@ -89,6 +128,13 @@ public class doPlate extends ObjectPlate {
 		
 		cells = new DoubleCell[arrayDimension][arrayDimension];
 		newCells = new DoubleCell[arrayDimension][arrayDimension];
+		
+		for (int i = 0; i < arrayDimension; i++) {
+			for (int j = 0; j < arrayDimension; j++) {
+				cells[i][j] = new DoubleCell();
+				newCells[i][j] = new DoubleCell();
+			}
+		}
 		
 		EdgeTemperature edgeTemperature = option.getEdgeTemperature();
 		
