@@ -21,6 +21,29 @@ public class daPlate extends ArrayPlate {
 		super();
 	}
 
+	public void setOption(Option option) {
+		super.setOption(option);
+		init();
+		
+		float [][]cellTemperatures = null;
+		cellTemperatures = getCellTemperatures();
+		notifyTemperatureChange(cellTemperatures);
+	}
+	private float[][] getCellTemperatures() {
+		
+		// TODO Auto-generated method stub
+		int dimension = option.getDimension();
+		float[][] cellTemperatures = new float[dimension][dimension];
+		for (int i = 1; i <= dimension; i++) {
+			for (int j = 1; j <= dimension; j++) {
+				cellTemperatures[i][j] = (float)cells[i][j]; 
+			}
+		}
+		return cellTemperatures;
+		
+		
+	}
+
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#compute()
 	 */
@@ -31,6 +54,7 @@ public class daPlate extends ArrayPlate {
 		int dimension = option.getDimension();
 		int maxIterations = option.getMaxIterations();
 		int iterationCount = 0;
+		float [][]cellTemperatures;
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
@@ -46,6 +70,9 @@ public class daPlate extends ArrayPlate {
 			}
 			swap();
 			iterationCount++;
+			
+			cellTemperatures = getCellTemperatures();
+			notifyTemperatureChange(cellTemperatures);
 				
 			if (true == done) {
 				break;
