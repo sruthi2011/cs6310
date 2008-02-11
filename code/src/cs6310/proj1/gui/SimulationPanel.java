@@ -6,19 +6,18 @@
 
 package cs6310.proj1.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.UIManager;
 
 public class SimulationPanel extends JPanel {
-	private JPanel cellPanel;
+	private CellPanel cellPanel;
 	private JSlider topSlider;
 	private JSlider bottomSlider;
 	private JSlider rightSlider;
@@ -31,12 +30,14 @@ public class SimulationPanel extends JPanel {
 	private void initialize() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		
-		
+	
 		this.setPreferredSize(new Dimension(400, 400));
 		
-		topSlider = new JSlider();
+
+		
+		topSlider = new JSlider(0, 100, 50);
 		topSlider.setOrientation(JSlider.HORIZONTAL);
+		initSlider(topSlider);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -48,6 +49,7 @@ public class SimulationPanel extends JPanel {
 		
 		leftSlider = new JSlider();
 		leftSlider.setOrientation(JSlider.VERTICAL);
+		initSlider(leftSlider);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.gridx = 0;
@@ -59,6 +61,7 @@ public class SimulationPanel extends JPanel {
 		
 		bottomSlider = new JSlider();
 		bottomSlider.setOrientation(JSlider.HORIZONTAL);
+		initSlider(bottomSlider);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -70,6 +73,7 @@ public class SimulationPanel extends JPanel {
 
 		rightSlider = new JSlider();
 		rightSlider.setOrientation(JSlider.VERTICAL);
+		initSlider(rightSlider);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.gridx = 2;
@@ -79,8 +83,8 @@ public class SimulationPanel extends JPanel {
 		c.insets = new Insets(0, 0, 5, 5);
 		add(rightSlider, c);
 
-		cellPanel = new JPanel();
-		cellPanel.setBorder(BorderFactory.createEtchedBorder());
+		cellPanel = new CellPanel();
+		cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 1;
@@ -94,20 +98,11 @@ public class SimulationPanel extends JPanel {
 		
 	}
 	
-	public static void main(String[] args) {
-		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-	        e.printStackTrace();
-        }
-        
-		JFrame testFrame = new JFrame("Test");
-		JPanel p = new SimulationPanel();
-		testFrame.setContentPane(p);
-		
-		testFrame.pack();
-		testFrame.setVisible(true);
-		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
+	private void initSlider(JSlider slider) {
+		slider.setMajorTickSpacing(20);
+		slider.setMinorTickSpacing(5);
+		slider.setPaintLabels(true);
+		slider.setPaintTicks(true);
 	}
+	
 }

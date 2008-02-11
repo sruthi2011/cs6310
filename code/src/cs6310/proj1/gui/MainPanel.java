@@ -8,23 +8,28 @@ package cs6310.proj1.gui;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
-public class MainPanel extends JPanel {
+import cs6310.proj1.data.Option;
+import cs6310.proj1.data.PlateListener;
+
+public class MainPanel extends JPanel implements PlateListener {
 	ControlPanel controlPanel;
 	SimulationPanel simulationPanel;
 	StatusPanel	statusPanel;
 	
+	GUIModel guiModel;
+	
 	public MainPanel() {
+		guiModel = new GUIModel();
+	
 		initialize();
 	}
 	
 	private void initialize() {
 		setLayout(new BorderLayout());
 		
-		controlPanel = new ControlPanel();
+		controlPanel = new ControlPanel(guiModel);
 		add(controlPanel, BorderLayout.NORTH);
 		
 		simulationPanel = new SimulationPanel();
@@ -33,21 +38,15 @@ public class MainPanel extends JPanel {
 		statusPanel = new StatusPanel();
 		add(statusPanel, BorderLayout.SOUTH);	
 	}
+
+	public void optionChanged(Option newOption) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void temperatureChanged(float[] temperatures) {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
-	public static void main(String[] args) {
-		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-	        e.printStackTrace();
-        }
-        
-		JFrame testFrame = new JFrame("Test");
-		JPanel p = new MainPanel();
-		testFrame.setContentPane(p);
-		
-		testFrame.pack();
-		testFrame.setVisible(true);
-		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-	}
 }
