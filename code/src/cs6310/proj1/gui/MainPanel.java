@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 public class MainPanel extends JPanel {
 	ControlPanel controlPanel;
 	SimulationPanel simulationPanel;
+	StatusPanel	statusPanel;
 	
 	public MainPanel() {
 		initialize();
@@ -28,7 +29,9 @@ public class MainPanel extends JPanel {
 		
 		simulationPanel = new SimulationPanel();
 		add(simulationPanel, BorderLayout.CENTER);
-	
+		
+		statusPanel = new StatusPanel();
+		add(statusPanel, BorderLayout.SOUTH);	
 	}
 	
 	public static void main(String[] args) {
