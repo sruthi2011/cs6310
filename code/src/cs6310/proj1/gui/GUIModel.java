@@ -14,6 +14,10 @@ public class GUIModel {
     }
 
 	public void setTemperatures(float[][] temperatures) {
+		if (temperatures == null) {
+			throw new IllegalArgumentException("temperatures can't be null.");
+		}
+		
     	this.temperatures = temperatures;
     }
 

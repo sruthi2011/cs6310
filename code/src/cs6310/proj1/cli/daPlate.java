@@ -36,7 +36,7 @@ public class daPlate extends ArrayPlate {
 		float[][] cellTemperatures = new float[dimension][dimension];
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
-				cellTemperatures[i][j] = (float)cells[i][j]; 
+				cellTemperatures[i - 1][j - 1] = (float) cells[i][j]; 
 			}
 		}
 		return cellTemperatures;
@@ -47,7 +47,7 @@ public class daPlate extends ArrayPlate {
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#compute()
 	 */
-	public boolean compute() {
+	public boolean compute(long sleepMilliseconds) {
 		
 		boolean done;
 		double stopPrecision = (double)option.getStopPrecison();
@@ -73,7 +73,14 @@ public class daPlate extends ArrayPlate {
 			
 			cellTemperatures = getCellTemperatures();
 			notifyTemperatureChange(cellTemperatures);
-				
+			
+			try {
+				if (sleepMilliseconds > 0) { 
+					Thread.sleep(sleepMilliseconds);
+				}
+            } catch (InterruptedException e) {
+            }
+            
 			if (true == done) {
 				break;
 			}
@@ -138,7 +145,7 @@ public class daPlate extends ArrayPlate {
 			daPlate plate = new daPlate();
 			plate.setOption(option);
 			plate.init();
-			plate.compute();
+			plate.compute(0);
 			plate.display();
 		}
 		else {
@@ -165,18 +172,26 @@ public class daPlate extends ArrayPlate {
 		 */
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[i][0] = edgeTemperature.getLeft();
+			cells[i][1] = edgeTemperature.getLeft();
 			cells[i][arrayDimension - 1] = edgeTemperature.getRight();
+			cells[i][arrayDimension - 2] = edgeTemperature.getRight();
 			
 			newCells[i][0] = edgeTemperature.getLeft();
+			newCells[i][1] = edgeTemperature.getLeft();
 			newCells[i][arrayDimension - 1] = edgeTemperature.getRight();
+			newCells[i][arrayDimension - 2] = edgeTemperature.getRight();
 		}
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[0][i] = edgeTemperature.getTop();
+			cells[1][i] = edgeTemperature.getTop();
 			cells[arrayDimension - 1][i] = edgeTemperature.getBottom();
+			cells[arrayDimension - 2][i] = edgeTemperature.getBottom();
 			
 			newCells[0][i] = edgeTemperature.getTop();
+			newCells[1][i] = edgeTemperature.getTop();
 			newCells[arrayDimension - 1][i] = edgeTemperature.getBottom();
+			newCells[arrayDimension - 2][i] = edgeTemperature.getBottom();
 		}		
 		// TODO Auto-generated method stub
 		
