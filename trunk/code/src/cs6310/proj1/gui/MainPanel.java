@@ -10,7 +10,6 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import cs6310.proj1.data.Option;
 import cs6310.proj1.data.PlateListener;
 
 public class MainPanel extends JPanel implements PlateListener {
@@ -39,12 +38,8 @@ public class MainPanel extends JPanel implements PlateListener {
 		add(statusPanel, BorderLayout.SOUTH);	
 	}
 
-	public void optionChanged(Option newOption) {
-	    // TODO Auto-generated method stub
-	    
-    }
 
-	public void temperatureChanged(float[] temperatures) {
+	public void temperatureChanged(float[][] temperatures) {
 	    // TODO Auto-generated method stub
 	    
     }

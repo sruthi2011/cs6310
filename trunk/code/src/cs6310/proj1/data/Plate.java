@@ -6,6 +6,10 @@
  */
 package cs6310.proj1.data;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+
 /**
  * @author Alex
  *
@@ -14,8 +18,11 @@ public abstract class Plate {
 	protected Option option;
 	protected boolean stopFlag;
 	
+	protected Collection listeners;
+	
 	public Plate() {
 		stopFlag = false;
+		listeners = new HashSet();
 	}
 	
 	public abstract boolean compute();
@@ -30,19 +37,27 @@ public abstract class Plate {
 	}
 	
 	public void addListener(PlateListener listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException("listener can't be null.");
+		}
 		
+		listeners.add(listener);
 	}
 	
 	public void removeListener(PlateListener listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException("listener can't be null.");
+		}
 		
+		listeners.remove(listener);
 	}
 	
 	
-	protected void notifyOptionChange() {
-	
-	}
-	
-	protected void notifyTemperatureChange() {
-		
+	protected void notifyTemperatureChange(float[][] temperatures) {
+		for (Iterator i = listeners.iterator(); i.hasNext();) {
+			PlateListener l = (PlateListener) i.next();
+			
+			l.temperatureChanged(temperatures);
+		}
 	}
 }
