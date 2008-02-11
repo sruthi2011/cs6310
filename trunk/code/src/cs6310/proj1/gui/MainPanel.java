@@ -32,10 +32,7 @@ public class MainPanel extends JPanel implements PlateListener {
 		setLayout(new BorderLayout());
 		
 		controlPanel = new ControlPanel(guiModel);
-		add(controlPanel, BorderLayout.NORTH);
-		
-		simulationPanel = new SimulationPanel(guiModel);
-		add(simulationPanel, BorderLayout.CENTER);
+		add(controlPanel, BorderLayout.CENTER);
 		
 		statusPanel = new StatusPanel();
 		add(statusPanel, BorderLayout.SOUTH);	
@@ -44,7 +41,7 @@ public class MainPanel extends JPanel implements PlateListener {
 
 	public void temperatureChanged(float[][] temperatures) {
 	    guiModel.setTemperatures(temperatures);
-	    simulationPanel.repaintPlate();
+	    controlPanel.repaintPlate();
     }
 	
 }

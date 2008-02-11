@@ -117,6 +117,27 @@ public class SimulationPanel extends JPanel implements ChangeListener {
 		
 	}
 	
+	public void startSimulation() {
+		Runnable computation = new Runnable() {
+			public void run() {
+				guiModel.getPlate().compute(10);
+            }
+		};
+		
+		new Thread(computation).start();
+	}
+	
+	public void stopSimulation() {
+		guiModel.getPlate().stop();
+	}
+	
+	public void setControlEnable(boolean enable) {
+		topSlider.setEnabled(enable);
+		leftSlider.setEnabled(enable);
+		bottomSlider.setEnabled(enable);
+		rightSlider.setEnabled(enable);
+	}
+	
 	private void initSlider(JSlider slider) {
 		slider.setMinimum(0);
 		slider.setMaximum(100);
