@@ -38,13 +38,13 @@ public class daPlate extends ArrayPlate {
 				for (int j = 1; j <= dimension; j++) {
 					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
 									  cells[i - 1][j] + cells[i + 1][j]) / 4.0;
-					//if (true == done && stopPrecision > (newCells[i][j] - cells[i][j])) { -- can be faster
-					if (stopPrecision > (newCells[i][j] - cells[i][j])) {
+					//if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) { -- can be faster
+					if (stopPrecision < (newCells[i][j] - cells[i][j])) {
 						done = false;
 					}
 				}
 			}
-			updateCells();
+			swap();
 			iterationCount++;
 				
 			if (true == done) {
@@ -58,13 +58,19 @@ public class daPlate extends ArrayPlate {
 	/**
 	 * 
 	 */
-	private void updateCells() {
+	private void swap() {
+		double temp [][];
+		temp = cells;
+		cells = newCells;
+		newCells = temp;
+		/*
 		int dimension = option.getDimension();
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
 				cells[i][j] = newCells[i][j];
 			}
 		}
+		*/
 		// TODO Auto-generated method stub
 	}
 
