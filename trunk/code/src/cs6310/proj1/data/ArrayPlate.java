@@ -1,9 +1,8 @@
 /**
  * 
  */
-package cs6310.proj1.cli;
+package cs6310.proj1.data;
 
-import cs6310.proj1.data.Plate;
 
 /**
  * @author Nagesh

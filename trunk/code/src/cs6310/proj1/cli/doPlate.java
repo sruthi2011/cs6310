@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import cs6310.proj1.data.DoubleCell;
 import cs6310.proj1.data.EdgeTemperature;
+import cs6310.proj1.data.ObjectPlate;
 import cs6310.proj1.data.Option;
 
 /**

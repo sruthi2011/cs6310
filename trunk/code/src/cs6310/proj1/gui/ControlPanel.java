@@ -11,8 +11,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.URL;
@@ -27,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import cs6310.proj1.cli.FaPlate;
 import cs6310.proj1.cli.daPlate;
@@ -35,7 +35,7 @@ import cs6310.proj1.data.Plate;
 
 
 public class ControlPanel extends JPanel
-	implements ItemListener, FocusListener {
+	implements ItemListener, DocumentListener {
 	
 	private JLabel simModelLabel;
 	private JLabel dimensionLabel;
@@ -110,7 +110,8 @@ public class ControlPanel extends JPanel
 		dimensionTextField.setPreferredSize(new Dimension(100, 20));
 		dimensionTextField.setText(
 			String.valueOf(guiModel.getOption().getDimension()));
-		dimensionTextField.addFocusListener(this);
+//		dimensionTextField.addFocusListener(this);
+		dimensionTextField.getDocument().addDocumentListener(this);
 		
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;		
@@ -139,7 +140,8 @@ public class ControlPanel extends JPanel
 		maxIterTextField.setPreferredSize(new Dimension(100, 20));
 		maxIterTextField.setText(
 			String.valueOf(guiModel.getOption().getMaxIterations()));
-		maxIterTextField.addFocusListener(this);
+		//maxIterTextField.addFocusListener(this);
+		maxIterTextField.getDocument().addDocumentListener(this);
 		
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -246,46 +248,6 @@ public class ControlPanel extends JPanel
 	    }
     }
 
-	public void focusGained(FocusEvent e) {
-    }
-
-	public void focusLost(FocusEvent e) {
-		//Filter the temporary event.
-		if (e.isTemporary()) {
-			return;
-		}
-		
-		String errMsg = null;
-		if (e.getSource().equals(dimensionTextField)) {
-			try {
-	            int dim = Integer.parseInt(dimensionTextField.getText());
-	            
-	            if (dim < 0 || dim > 200) {
-	            	errMsg = "Dimension must be in range [0, 200].";
-	            }
-            } catch (NumberFormatException e1) {
-            	errMsg = "Dimension must be a number in range [0, 200].";
-            	
-            }
-		} else if (e.getSource().equals(maxIterTextField)) {
-			try {
-	            int iter = Integer.parseInt(maxIterTextField.getText());
-	            
-	            if (iter < 1) {
-	            	errMsg = "Max Iteration must be greater than 1.";
-	            }
-            } catch (NumberFormatException e1) {
-            	errMsg = "Max Iteration must be a number greater than 1.";
-            	
-            }
-		}
-        if (errMsg != null) {
-        	displayErrorMessage(errMsg);
-        	((JTextField) e.getSource()).selectAll();
-        	((JTextField) e.getSource()).requestFocus();
-        }
-			
-    }
 	
 	public void displayErrorMessage(String errorMsg) {
 		if (errorMsg == null || errorMsg.isEmpty()) {
@@ -296,4 +258,72 @@ public class ControlPanel extends JPanel
 		messageTextArea.setText(errorMsg);
 	}
 	
+
+	public void changedUpdate(DocumentEvent e) {
+    }
+
+	public void insertUpdate(DocumentEvent e) {
+		boolean valid = validateInput();
+		controlButton.setEnabled(valid);
+		
+		if (valid) {
+			updateOption();
+		}
+		
+    }
+
+	public void removeUpdate(DocumentEvent e) {
+		boolean valid = validateInput();
+		controlButton.setEnabled(valid);
+		
+		if (valid) {
+			updateOption();
+		}
+    }
+
+	
+	private boolean validateInput() {
+		String errMsg = null;
+		
+		try {
+            int dim = Integer.parseInt(dimensionTextField.getText());
+            
+            if (dim < 0 || dim > 200) {
+            	errMsg = "Dimension must be in range [0, 200].";
+            }
+        } catch (NumberFormatException e1) {
+        	errMsg = "Dimension must be a number in range [0, 200].";
+        	
+        }
+
+        try {
+            int iter = Integer.parseInt(maxIterTextField.getText());
+            
+            if (iter < 1) {
+            	errMsg = "Max Iteration must be greater than 1.";
+            }
+        } catch (NumberFormatException e1) {
+        	errMsg = "Max Iteration must be a number greater than 1.";
+        	
+        }
+
+        displayErrorMessage(errMsg);
+        
+		if (errMsg == null || errMsg.isEmpty()) {
+			
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private void updateOption() {
+		guiModel.getOption().setDimension(
+				Integer.parseInt(dimensionTextField.getText()));
+		guiModel.getOption().setMaxIterations(
+				Integer.parseInt(maxIterTextField.getText()));
+		
+		guiModel.getPlate().setOption(guiModel.getOption());
+	}
+
 }
