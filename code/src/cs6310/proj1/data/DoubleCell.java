@@ -48,4 +48,8 @@ public class DoubleCell extends Cell {
 		temperature = neighborSum / 4.0;
 		// TODO Auto-generated method stub
 	}
+	
+	public double getNextNeighborsTemp() {
+		return ((DoubleCell)iterator.next()).getTemperature();
+	}
 }
