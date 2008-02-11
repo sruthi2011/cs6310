@@ -40,7 +40,7 @@ public class MainPanel extends JPanel implements PlateListener {
 
 
 	public void temperatureChanged(float[][] temperatures) {
-	    // TODO Auto-generated method stub
+	    
 	    
     }
 	

@@ -7,8 +7,16 @@ import cs6310.proj1.data.Plate;
 public class GUIModel {
 	private Option option;
 	private Plate plate;
+	private float[][] temperatures;
 	
-	
+	public float[][] getTemperatures() {
+    	return temperatures;
+    }
+
+	public void setTemperatures(float[][] temperatures) {
+    	this.temperatures = temperatures;
+    }
+
 	public GUIModel() {
 		option = new Option();
 		plate = new daPlate(); //Default Plate;
