@@ -96,6 +96,7 @@ public class SimulationPanel extends JPanel {
 		c.insets = new Insets(0, 0, 5, 5);
 		add(cellPanel, c);
 		
+		
 	}
 	
 	private void initSlider(JSlider slider) {
