@@ -29,12 +29,18 @@ public class CellPanel extends JPanel {
 		int cellWidth = getWidth() / dimension;
 		int cellHeight = getHeight() / dimension;
 		
+		//To center the image.
+		int leftOffset = (getWidth() - cellWidth * dimension) / 2;
+		int topOffset = (getHeight() - cellHeight * dimension) / 2;
+		
 		for (int x = 0; x < dimension; x++) {
 			for (int y = 0; y < dimension; y++) {
 				g2d.setColor(tempToColor(temps[y][x]));
 
 				g2d.fillRect(
-					x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+					leftOffset + x * cellWidth, 
+					topOffset + y * cellHeight,
+					cellWidth, cellHeight);
 			}
 		}		
 		

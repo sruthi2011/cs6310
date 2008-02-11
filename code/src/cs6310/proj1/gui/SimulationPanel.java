@@ -103,7 +103,6 @@ public class SimulationPanel extends JPanel implements ChangeListener {
 		add(rightSlider, c);
 
 		cellPanel = new CellPanel(guiModel);
-//		cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 1;
