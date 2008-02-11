@@ -18,6 +18,8 @@ public class CellPanel extends JPanel {
     }
 	
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g); //Paint the background
+		
 		Graphics2D g2d = (Graphics2D) g;
 
 		float temps[][] = guiModel.getTemperatures();

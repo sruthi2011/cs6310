@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -51,8 +50,11 @@ public class ControlPanel extends JPanel
 	private ImageIcon stopIcon;
 	
 	private JTextArea messageTextArea;
+	private SimulationPanel simPanel;
 	
 	private GUIModel guiModel;
+	private boolean running = false;
+	
 	public ControlPanel(GUIModel model) {
 		if (model == null) {
 			throw new IllegalArgumentException("model can not be null.");
@@ -113,7 +115,6 @@ public class ControlPanel extends JPanel
 		dimensionTextField.setPreferredSize(new Dimension(100, 20));
 		dimensionTextField.setText(
 			String.valueOf(guiModel.getOption().getDimension()));
-//		dimensionTextField.addFocusListener(this);
 		dimensionTextField.getDocument().addDocumentListener(this);
 		
 		c.anchor = GridBagConstraints.WEST;
@@ -143,7 +144,6 @@ public class ControlPanel extends JPanel
 		maxIterTextField.setPreferredSize(new Dimension(100, 20));
 		maxIterTextField.setText(
 			String.valueOf(guiModel.getOption().getMaxIterations()));
-		//maxIterTextField.addFocusListener(this);
 		maxIterTextField.getDocument().addDocumentListener(this);
 		
 		c.anchor = GridBagConstraints.WEST;
@@ -198,10 +198,25 @@ public class ControlPanel extends JPanel
 		c.gridwidth = 4;
 		c.gridheight = 1;
 		c.weightx = 1.0;
-		c.weighty = 0.5;
 		c.insets = new Insets(0, 5, 5, 5);
 		add(messageTextArea, c);
+		
+		simPanel = new SimulationPanel(guiModel);
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = 4;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.weighty = 0.5;
+		c.insets = new Insets(0, 5, 5, 5);
+		add(simPanel, c);
 			
+	}
+	
+	public void repaintPlate() {
+		simPanel.repaintPlate();
 	}
 	
 	private ComboBoxModel getSimModelComboModel(Plate currentPlate) {
@@ -225,13 +240,20 @@ public class ControlPanel extends JPanel
 	}
 
 	private void toggleControlBtn() {
-		if (controlButton.getText() != "Start") {
+		if (!running) {
 			controlButton.setText("Start");
 			controlButton.setIcon(startIcon);
 		} else {
 			controlButton.setText("Stop");
 			controlButton.setIcon(stopIcon);
 		}
+	}
+	
+	private void setControlEnable(boolean enable) {
+		simModelComboBox.setEnabled(enable);
+		dimensionTextField.setEnabled(enable);
+		maxIterTextField.setEnabled(enable);
+		simPanel.setControlEnable(enable);
 	}
 
 	public void itemStateChanged(ItemEvent e) {
@@ -331,16 +353,17 @@ public class ControlPanel extends JPanel
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		SwingWorker worker = new SwingWorker() {
-
-			protected Object doInBackground() throws Exception {
-	            guiModel.getPlate().compute(10);
-	            return null;
-            }
-			
-		};
+		if (!running) {
+			simPanel.startSimulation();
+			running = true;
+		} else {
+			simPanel.stopSimulation();
+			running = false;
+		}
 		
-		worker.execute();
+		toggleControlBtn();
+		
+		setControlEnable(!running);
     }
 
 }
