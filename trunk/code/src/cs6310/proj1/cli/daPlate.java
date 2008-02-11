@@ -56,6 +56,10 @@ public class daPlate extends ArrayPlate {
 		int iterationCount = 0;
 		float [][]cellTemperatures;
 		
+		//Add by Alex
+		//Clear the stopFlag before start
+		stopFlag = false;
+		
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
 			for (int i = 1; i <= dimension; i++) {
