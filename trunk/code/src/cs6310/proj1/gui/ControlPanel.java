@@ -6,10 +6,15 @@
 
 package cs6310.proj1.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.net.URL;
 
 import javax.swing.ComboBoxModel;
@@ -17,29 +22,41 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
+
+import cs6310.proj1.cli.FaPlate;
+import cs6310.proj1.cli.daPlate;
+import cs6310.proj1.cli.doPlate;
+import cs6310.proj1.data.Plate;
 
 
-public class ControlPanel extends JPanel {
-	private JLabel typeLabel;
+public class ControlPanel extends JPanel
+	implements ItemListener, FocusListener {
+	
+	private JLabel simModelLabel;
 	private JLabel dimensionLabel;
-	private JTextField stepLimitTextField;
+	private JTextField maxIterTextField;
 	private JButton controlButton;
 	private JTextField dimensionTextField;
-	private JComboBox typeComboBox;
-	private JLabel stepLimitLabel;
+	private JComboBox simModelComboBox;
+	private JLabel maxIterLabel;
 	private ImageIcon startIcon;
 	private ImageIcon stopIcon;
 	
 	private JTextArea messageTextArea;
 	
-	public ControlPanel() {
+	private GUIModel guiModel;
+	public ControlPanel(GUIModel model) {
+		if (model == null) {
+			throw new IllegalArgumentException("model can not be null.");
+		}
+		
+		guiModel = model;
+		
 		initialize();
 	}
 
@@ -49,22 +66,23 @@ public class ControlPanel extends JPanel {
 		
 		setPreferredSize(new Dimension(560, 88));
 		//Type Label
-		typeLabel = new JLabel();
-		typeLabel.setText("Type:");
+		simModelLabel = new JLabel();
+		simModelLabel.setText("Simluation Model:");
 		c.anchor = GridBagConstraints.WEST;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.insets = new Insets(5, 5, 5, 5);
-		add(typeLabel, c);
+		add(simModelLabel, c);
 
 		//Type ComboBox
 		ComboBoxModel typeComboBoxModel = 
-			new DefaultComboBoxModel(
-					new String[] { "Item One", "Item Two" });
-		typeComboBox = new JComboBox(typeComboBoxModel);
-		typeComboBox.setPreferredSize(new Dimension(150, 20));
+			getSimModelComboModel(guiModel.getPlate());
+		simModelComboBox = new JComboBox(typeComboBoxModel);
+		simModelComboBox.setPreferredSize(new Dimension(150, 20));
+		simModelComboBox.addItemListener(this);
+		
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -73,7 +91,7 @@ public class ControlPanel extends JPanel {
 		c.gridheight = 1;
 		c.weightx = 0.2;
 		c.insets = new Insets(0, 5, 5, 5);
-		add(typeComboBox, c);
+		add(simModelComboBox, c);
 		
 		//Dimension Label
 		dimensionLabel = new JLabel();
@@ -88,8 +106,12 @@ public class ControlPanel extends JPanel {
 		add(dimensionLabel, c);
 
 		//Dimension TextField
-		dimensionTextField = new JTextField("20");
+		dimensionTextField = new JTextField();
 		dimensionTextField.setPreferredSize(new Dimension(100, 20));
+		dimensionTextField.setText(
+			String.valueOf(guiModel.getOption().getDimension()));
+		dimensionTextField.addFocusListener(this);
+		
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;		
 		c.gridx = 1;
@@ -101,8 +123,8 @@ public class ControlPanel extends JPanel {
 		add(dimensionTextField, c);
 		
 		//Step Limit Label
-		stepLimitLabel = new JLabel();
-		stepLimitLabel.setText("Step Limit:");
+		maxIterLabel = new JLabel();
+		maxIterLabel.setText("Max Iteration:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 2;
@@ -110,11 +132,15 @@ public class ControlPanel extends JPanel {
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.insets = new Insets(5, 0, 5, 5);
-		add(stepLimitLabel, c);
+		add(maxIterLabel, c);
 		
 		//Step Limit TextField
-		stepLimitTextField = new JTextField("10000");
-		stepLimitTextField.setPreferredSize(new Dimension(100, 20));
+		maxIterTextField = new JTextField();
+		maxIterTextField.setPreferredSize(new Dimension(100, 20));
+		maxIterTextField.setText(
+			String.valueOf(guiModel.getOption().getMaxIterations()));
+		maxIterTextField.addFocusListener(this);
+		
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
@@ -123,7 +149,7 @@ public class ControlPanel extends JPanel {
 		c.gridheight = 1;
 		c.weightx = 0.2;
 		c.insets = new Insets(0, 0, 5, 5);
-		add(stepLimitTextField, c);
+		add(maxIterTextField, c);
 		
 		//Control Button
 		controlButton = new JButton();
@@ -158,6 +184,7 @@ public class ControlPanel extends JPanel {
 		//Message Text Area
 		messageTextArea = new JTextArea();
 		messageTextArea.setBackground(getBackground());
+		messageTextArea.setEditable(false);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -170,6 +197,26 @@ public class ControlPanel extends JPanel {
 		add(messageTextArea, c);
 			
 	}
+	
+	private ComboBoxModel getSimModelComboModel(Plate currentPlate) {
+		assert currentPlate != null;
+		
+		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		model.addElement("daPlate");
+		model.addElement("doPlate");
+		model.addElement("faPlate");
+		model.addElement("FaPlate");
+		
+		if (currentPlate instanceof daPlate) {
+			model.setSelectedItem("daPlate");
+		} else if (currentPlate instanceof doPlate) {
+			model.setSelectedItem("daPlate");
+		} else if (currentPlate instanceof FaPlate) {
+			model.setSelectedItem("FaPlate");
+		}
+		
+		return model;
+	}
 
 	private void toggleControlBtn() {
 		if (controlButton.getText() != "Start") {
@@ -180,24 +227,73 @@ public class ControlPanel extends JPanel {
 			controlButton.setIcon(stopIcon);
 		}
 	}
-	
-	public static void main(String[] args) {
-		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-	        e.printStackTrace();
-        }
-        
-		JFrame testFrame = new JFrame("Test");
-		JPanel p = new ControlPanel();
-		testFrame.setContentPane(p);
+
+	public void itemStateChanged(ItemEvent e) {
+	    if (e.getSource().equals(simModelComboBox)) {
+	    	if (e.getStateChange() == ItemEvent.SELECTED) {
+	    		if ("daPlate".equals(e.getItem())) {
+	    			guiModel.setPlate(new daPlate());	    			
+	    		} else if ("doPlate".equals(e.getItem())) {
+	    			guiModel.setPlate(new doPlate());
+	    		} else if ("FaPlate".equals(e.getItem())) {
+	    			guiModel.setPlate(new FaPlate());
+	    		} else if ("faPlate".equals(e.getItem())) {
+	    			guiModel.setPlate(new FaPlate());
+	    		}
+	    		
+	    		assert false : "Unknow simluation model";
+	    	}
+	    }
+    }
+
+	public void focusGained(FocusEvent e) {
+    }
+
+	public void focusLost(FocusEvent e) {
+		//Filter the temporary event.
+		if (e.isTemporary()) {
+			return;
+		}
 		
-		testFrame.pack();
-		testFrame.setVisible(true);
-		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		String errMsg = null;
+		if (e.getSource().equals(dimensionTextField)) {
+			try {
+	            int dim = Integer.parseInt(dimensionTextField.getText());
+	            
+	            if (dim < 0 || dim > 200) {
+	            	errMsg = "Dimension must be in range [0, 200].";
+	            }
+            } catch (NumberFormatException e1) {
+            	errMsg = "Dimension must be a number in range [0, 200].";
+            	
+            }
+		} else if (e.getSource().equals(maxIterTextField)) {
+			try {
+	            int iter = Integer.parseInt(maxIterTextField.getText());
+	            
+	            if (iter < 1) {
+	            	errMsg = "Max Iteration must be greater than 1.";
+	            }
+            } catch (NumberFormatException e1) {
+            	errMsg = "Max Iteration must be a number greater than 1.";
+            	
+            }
+		}
+        if (errMsg != null) {
+        	displayErrorMessage(errMsg);
+        	((JTextField) e.getSource()).selectAll();
+        	((JTextField) e.getSource()).requestFocus();
+        }
+			
+    }
 	
+	public void displayErrorMessage(String errorMsg) {
+		if (errorMsg == null || errorMsg.isEmpty()) {
+			messageTextArea.setText("");
+		}
+		
+		messageTextArea.setForeground(Color.RED);
+		messageTextArea.setText(errorMsg);
 	}
 	
-
-
 }
