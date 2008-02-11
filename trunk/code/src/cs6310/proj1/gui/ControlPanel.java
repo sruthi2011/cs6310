@@ -334,7 +334,7 @@ public class ControlPanel extends JPanel
 		SwingWorker worker = new SwingWorker() {
 
 			protected Object doInBackground() throws Exception {
-	            guiModel.getPlate().compute(0);
+	            guiModel.getPlate().compute(10);
 	            return null;
             }
 			
