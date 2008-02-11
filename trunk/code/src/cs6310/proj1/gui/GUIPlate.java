@@ -24,7 +24,7 @@ public class GUIPlate {
 	        return;
         }
         
-		JFrame testFrame = new JFrame("Test");
+		JFrame testFrame = new JFrame("Diffusion Simulation");
 		JPanel mainPanel = new MainPanel();
 		testFrame.setContentPane(mainPanel);
 		testFrame.setMinimumSize(new Dimension(500, 600));

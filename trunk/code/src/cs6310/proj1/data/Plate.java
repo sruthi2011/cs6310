@@ -25,7 +25,7 @@ public abstract class Plate {
 		listeners = new HashSet();
 	}
 	
-	public abstract boolean compute();
+	public abstract boolean compute(long sleepMilliseconds);
 	public void stop() {
 		stopFlag = true;
 	}

@@ -6,26 +6,33 @@
 
 package cs6310.proj1.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class SimulationPanel extends JPanel {
+public class SimulationPanel extends JPanel implements ChangeListener {
 	private CellPanel cellPanel;
 	private JSlider topSlider;
 	private JSlider bottomSlider;
 	private JSlider rightSlider;
 	private JSlider leftSlider;
 	
-	public SimulationPanel() {
-		initialize();
-	}
+	private GUIModel guiModel;
+	
+	public SimulationPanel(GUIModel guiModel) {
+	    if (guiModel == null) {
+	    	throw new IllegalArgumentException("guiModel can't be null.");
+	    }
+	    
+	    this.guiModel = guiModel;
+		initialize();	    
+    }
 
 	private void initialize() {
 		setLayout(new GridBagLayout());
@@ -35,9 +42,12 @@ public class SimulationPanel extends JPanel {
 		
 
 		
-		topSlider = new JSlider(0, 100, 50);
+		topSlider = new JSlider();
 		topSlider.setOrientation(JSlider.HORIZONTAL);
 		initSlider(topSlider);
+		topSlider.setValue(
+				(int) guiModel.getOption().getEdgeTemperature().getTop());
+		topSlider.addChangeListener(this);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -50,6 +60,9 @@ public class SimulationPanel extends JPanel {
 		leftSlider = new JSlider();
 		leftSlider.setOrientation(JSlider.VERTICAL);
 		initSlider(leftSlider);
+		leftSlider.setValue(
+				(int) guiModel.getOption().getEdgeTemperature().getTop());
+		leftSlider.addChangeListener(this);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.gridx = 0;
@@ -62,6 +75,9 @@ public class SimulationPanel extends JPanel {
 		bottomSlider = new JSlider();
 		bottomSlider.setOrientation(JSlider.HORIZONTAL);
 		initSlider(bottomSlider);
+		bottomSlider.setValue(
+				(int) guiModel.getOption().getEdgeTemperature().getTop());
+		bottomSlider.addChangeListener(this);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -74,6 +90,9 @@ public class SimulationPanel extends JPanel {
 		rightSlider = new JSlider();
 		rightSlider.setOrientation(JSlider.VERTICAL);
 		initSlider(rightSlider);
+		rightSlider.setValue(
+				(int) guiModel.getOption().getEdgeTemperature().getTop());
+		rightSlider.addChangeListener(this);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.gridx = 2;
@@ -83,8 +102,8 @@ public class SimulationPanel extends JPanel {
 		c.insets = new Insets(0, 0, 5, 5);
 		add(rightSlider, c);
 
-		cellPanel = new CellPanel();
-		cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		cellPanel = new CellPanel(guiModel);
+//		cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 1;
@@ -100,10 +119,33 @@ public class SimulationPanel extends JPanel {
 	}
 	
 	private void initSlider(JSlider slider) {
+		slider.setMinimum(0);
+		slider.setMaximum(100);
 		slider.setMajorTickSpacing(20);
 		slider.setMinorTickSpacing(5);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
 	}
-	
+
+	public void repaintPlate() {
+	    cellPanel.repaint();	    
+    }
+
+	public void stateChanged(ChangeEvent e) {
+	    if (e.getSource().equals(leftSlider)) {
+	    	guiModel.getOption().getEdgeTemperature().setLeft(
+	    			leftSlider.getValue());
+	    } else if (e.getSource().equals(topSlider)) {
+	    	guiModel.getOption().getEdgeTemperature().setTop(
+	    			topSlider.getValue());
+	    } else if (e.getSource().equals(rightSlider)) {
+	    	guiModel.getOption().getEdgeTemperature().setRight(
+	    			rightSlider.getValue());
+	    } else if (e.getSource().equals(bottomSlider)) {
+	    	guiModel.getOption().getEdgeTemperature().setBottom(
+	    			bottomSlider.getValue());
+	    }
+	    
+	    guiModel.getPlate().setOption(guiModel.getOption());
+    }
 }

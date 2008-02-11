@@ -26,7 +26,7 @@ public class doPlate extends ObjectPlate {
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#compute()
 	 */
-	public boolean compute() {
+	public boolean compute(long sleepMilliseconds) {
 		// TODO Auto-generated method stub
 		
 		boolean done;
@@ -114,7 +114,7 @@ public class doPlate extends ObjectPlate {
 			doPlate plate = new doPlate();
 			plate.setOption(option);
 			plate.init();
-			plate.compute();
+			plate.compute(0);
 			plate.display();
 		}
 		else {

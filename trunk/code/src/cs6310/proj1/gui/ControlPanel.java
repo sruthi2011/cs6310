@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.URL;
@@ -25,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -35,7 +38,7 @@ import cs6310.proj1.data.Plate;
 
 
 public class ControlPanel extends JPanel
-	implements ItemListener, DocumentListener {
+	implements ItemListener, DocumentListener, ActionListener {
 	
 	private JLabel simModelLabel;
 	private JLabel dimensionLabel;
@@ -156,6 +159,7 @@ public class ControlPanel extends JPanel
 		//Control Button
 		controlButton = new JButton();
 		controlButton.setPreferredSize(new Dimension(80, 25));
+		controlButton.addActionListener(this);
 		URL startUrl =  getClass().getResource("res/start.png");
 		startIcon = new ImageIcon(startUrl);
 		URL stopUrl = getClass().getResource("res/stop.png");
@@ -325,5 +329,18 @@ public class ControlPanel extends JPanel
 		
 		guiModel.getPlate().setOption(guiModel.getOption());
 	}
+
+	public void actionPerformed(ActionEvent e) {
+		SwingWorker worker = new SwingWorker() {
+
+			protected Object doInBackground() throws Exception {
+	            guiModel.getPlate().compute(0);
+	            return null;
+            }
+			
+		};
+		
+		worker.execute();
+    }
 
 }
