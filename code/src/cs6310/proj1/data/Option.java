@@ -13,11 +13,11 @@ package cs6310.proj1.data;
 public class Option {
 	private int dimension = 100;
 	private int maxIterations = 100;
-	private EdgeTemperature edgeTemperature;
+	private EdgeTemperature edgeTemperature = new EdgeTemperature();
 	private float stopPrecison = 0.001f;
 	
 	public Option() {
-		edgeTemperature = new EdgeTemperature();
+
 	}
 	
 	
