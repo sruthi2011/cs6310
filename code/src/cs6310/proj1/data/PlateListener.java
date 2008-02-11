@@ -9,7 +9,5 @@ package cs6310.proj1.data;
  * 
  */
 public interface PlateListener {
-	public void optionChanged(Option newOption);
-	public void temperatureChanged(float[] temperatures);
-
+	public void temperatureChanged(float[][] temperatures);
 }
