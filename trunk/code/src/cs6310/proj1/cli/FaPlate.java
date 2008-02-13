@@ -25,12 +25,12 @@ public class FaPlate extends ArrayPlate {
 		super.setOption(option);
 		init();
 		
-		float [][]cellTemperatures = null;
-		cellTemperatures = getCellTemperatures();
-		notifyTemperatureChange(cellTemperatures);
+		float [][]guiData = null;
+		cellTemperatures = getGuiDisplayData();
+		notifyTemperatureChange(guiData);
 	}
 	
-	private float[][] getCellTemperatures() {
+	protected float[][] getGuiDisplayData() {
 		int dimension = option.getDimension();
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
@@ -48,12 +48,16 @@ public class FaPlate extends ArrayPlate {
 		int dimension = option.getDimension();
 		int maxIterations = option.getMaxIterations();
 		int iterationCount = 0;
-		float [][]cellTemperatures;
+		float [][]guiData;
 		
 		stopFlag = false;		
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
+
+			System.out.println("iteration " + iterationCount);
+			display();
+			
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
 					newCells[i][j] = new Float((cells[i][j - 1].floatValue() + cells[i][j + 1].floatValue() + 
@@ -67,8 +71,8 @@ public class FaPlate extends ArrayPlate {
 			swap();
 			iterationCount++;
 				
-			cellTemperatures = getCellTemperatures();
-			notifyTemperatureChange(cellTemperatures);
+			guiData = getGuiDisplayData();
+			notifyTemperatureChange(guiData);
 			
 			try {
 				if (sleepMilliseconds > 0) { 
@@ -110,9 +114,9 @@ public class FaPlate extends ArrayPlate {
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#stop()
 	 */
-	public void stop() {
-		stopFlag = true;
-	}
+//	public void stop() {
+//		stopFlag = true;
+//	}
 
 	/**
 	 * @param args
@@ -123,7 +127,7 @@ public class FaPlate extends ArrayPlate {
 		if (true == status) {
 			FaPlate plate = new FaPlate();
 			plate.setOption(option);
-			plate.init();
+			//plate.init();
 			plate.compute(0);
 			plate.display();
 		}
@@ -180,8 +184,6 @@ public class FaPlate extends ArrayPlate {
 		cells[1][arrayDimension - 2] = new Float((edgeTemperature.getTop() + edgeTemperature.getRight()) / 2);
 		cells[arrayDimension - 2][1] = new Float((edgeTemperature.getBottom() + edgeTemperature.getLeft()) / 2);
 		cells[arrayDimension - 2][arrayDimension - 2] = new Float((edgeTemperature.getBottom() + edgeTemperature.getRight()) / 2);
-		
-				
 	}
 
 }
