@@ -11,7 +11,6 @@ import java.util.Vector;
  */
 public abstract class Cell {
 	protected Vector neighbors;
-	protected Iterator iterator;
 	
 	public Cell() {
 		neighbors = new Vector();
@@ -27,20 +26,5 @@ public abstract class Cell {
 	
 	public void addNeighbor(Cell neighbor) {
 		neighbors.add(neighbor);
-	}
-	
-	//public abstract void calculateTemperature();
-	
-	public void initNeighborIterator() {
-		iterator = neighbors.iterator();
-	}
-	
-	public boolean hasMoreNeighbors() {
-		return iterator.hasNext();
-	}
-	
-	public int getNoOfNeighbors() {
-		return neighbors.size();
-	}
-	
+	}	
 }
