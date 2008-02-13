@@ -26,12 +26,12 @@ public class daPlate extends ArrayPlate {
 		super.setOption(option);
 		init();
 		
-		float [][]cellTemperatures = null;
-		cellTemperatures = getCellTemperatures();
-		notifyTemperatureChange(cellTemperatures);
+		float [][]guiData = null;
+		guiData = getGuiDisplayData();
+		notifyTemperatureChange(guiData);
 	}
 	
-	private float[][] getCellTemperatures() {
+	protected float[][] getGuiDisplayData() {
 		int dimension = option.getDimension();
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
@@ -51,7 +51,7 @@ public class daPlate extends ArrayPlate {
 		int dimension = option.getDimension();
 		int maxIterations = option.getMaxIterations();
 		int iterationCount = 0;
-		float [][]cellTemperatures;
+		float [][]guiData;
 		
 		//Add by Alex
 		//Clear the stopFlag before start
@@ -59,7 +59,7 @@ public class daPlate extends ArrayPlate {
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
-			
+					
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
 					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
@@ -73,8 +73,8 @@ public class daPlate extends ArrayPlate {
 			swap();
 			iterationCount++;
 			
-			cellTemperatures = getCellTemperatures();
-			notifyTemperatureChange(cellTemperatures);
+			guiData = getGuiDisplayData();
+			notifyTemperatureChange(guiData);
 			
 			try {
 				if (sleepMilliseconds > 0) { 
@@ -119,9 +119,9 @@ public class daPlate extends ArrayPlate {
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#stop()
 	 */
-	public void stop() {
-		stopFlag = true;
-	}
+//	public void stop() {
+//		stopFlag = true;
+//	}
 
 	/**
 	 * @param args
@@ -133,7 +133,7 @@ public class daPlate extends ArrayPlate {
 		if (true == status) {
 			daPlate plate = new daPlate();
 			plate.setOption(option);
-			plate.init();
+			//plate.init();
 			plate.compute(0);
 			plate.display();
 		}
