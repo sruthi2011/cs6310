@@ -8,6 +8,8 @@ import java.text.DecimalFormat;
 
 import cs6310.proj1.data.*;
 
+//import com.jamonapi.*;
+
 /**
  * @author Alex
  *
@@ -56,12 +58,9 @@ public class daPlate extends ArrayPlate {
 		//Add by Alex
 		//Clear the stopFlag before start
 		stopFlag = false;
-		
+		notifySimluationStarted();
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
-			
-			//System.out.println("iteration count " + iterationCount);
-			//display();
 			
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
@@ -91,6 +90,7 @@ public class daPlate extends ArrayPlate {
 				break;
 			}
 		}
+		notifySimulationStoped();
 		return true;
 	}
 
@@ -127,11 +127,18 @@ public class daPlate extends ArrayPlate {
 		
 		Option option = new Option();
 		boolean status = option.parseArgs(args);
+		//Monitor monitor = null;		
 		if (true == status) {
-			daPlate plate = new daPlate();
-			plate.setOption(option);
-			plate.compute(0);
-			plate.display();
+			for (int i = 0; i < 11; i++) {
+				daPlate plate = new daPlate();
+				plate.setOption(option);
+			//	monitor = MonitorFactory.start();
+				plate.compute(0);
+			//	monitor.stop();
+				plate.display();
+			}
+			//System.out.println(monitor);			
+			
 		}
 		else {
 			System.out.println("error parsing arguments.");
