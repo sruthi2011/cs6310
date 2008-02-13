@@ -19,7 +19,6 @@ public class DoubleCell extends Cell {
 		super();
 		temperature = 0.0;
 	}
-
 	/**
 	 * @return the temperature
 	 */
@@ -38,24 +37,19 @@ public class DoubleCell extends Cell {
 	 * @see cs6310.proj1.data.Cell#calculateTemperature()
 	 */
 	
-	/*
-	public void calculateTemperature() {
-		double neighborSum = 0.0;
-		Iterator iterator = neighbors.iterator();
-		
-		while (iterator.hasNext()) {
-			neighborSum += ((DoubleCell)iterator.next()).getTemperature(); 
-		}
-		temperature = neighborSum / 4.0;
-	}
 	
+//	public void calculateTemperature() {
+//		double neighborSum = 0.0;
+//		Iterator iterator = neighbors.iterator();
+//		
+//		while (iterator.hasNext()) {
+//			neighborSum += ((DoubleCell)iterator.next()).getTemperature(); 
+//		}
+//		newTemperature = neighborSum / 4.0;
+//	}
 	
-	public double getNextNeighborsTemp() {
-		return ((DoubleCell)iterator.next()).getTemperature();
-	}
-	*/
-	
-	public double computeAndReturnTemp() {
+
+	public double computeTemperature() {
 		
 		double neighborSum = 0.0;
 		Iterator iterator = neighbors.iterator();
