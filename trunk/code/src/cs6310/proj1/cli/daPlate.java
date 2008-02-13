@@ -65,7 +65,6 @@ public class daPlate extends ArrayPlate {
 					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
 									  cells[i - 1][j] + cells[i + 1][j]) / 4.0;
 					if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) {
-					//if (stopPrecision < (newCells[i][j] - cells[i][j])) {
 						done = false;
 					}
 				}
@@ -116,13 +115,6 @@ public class daPlate extends ArrayPlate {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see cs6310.proj1.data.Plate#stop()
-	 */
-//	public void stop() {
-//		stopFlag = true;
-//	}
-
 	/**
 	 * @param args
 	 */
@@ -133,7 +125,6 @@ public class daPlate extends ArrayPlate {
 		if (true == status) {
 			daPlate plate = new daPlate();
 			plate.setOption(option);
-			//plate.init();
 			plate.compute(0);
 			plate.display();
 		}
