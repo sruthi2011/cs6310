@@ -19,95 +19,112 @@ public class doPlate extends ObjectPlate {
 
 	private DoubleCell cells[][];
 	private DoubleCell newCells[][];
+	private float cellTemperatures[][];	
 
 	public doPlate() {
 		super();
 	}
+	
+	public void setOption(Option option) {
+		super.setOption(option);
+		init();
+		
+		float [][]cellTemperatures = null;
+		cellTemperatures = getCellTemperatures();
+		notifyTemperatureChange(cellTemperatures);
+	}
+	
+	private float[][] getCellTemperatures() {
+		int dimension = option.getDimension();
+		for (int i = 1; i <= dimension; i++) {
+			for (int j = 1; j <= dimension; j++) {
+				cellTemperatures[i - 1][j - 1] = (float)cells[i][j].getTemperature(); 
+			}
+		}
+		return cellTemperatures;		
+	}	
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#compute()
 	 */
 	public boolean compute(long sleepMilliseconds) {
-		// TODO Auto-generated method stub
-		
 		boolean done;
 		double stopPrecision = (double)option.getStopPrecison();
 		int dimension = option.getDimension();
 		int maxIterations = option.getMaxIterations();
 		int iterationCount = 0;
+		float [][]cellTemperatures;		
 		double temperature;
-		DoubleCell cell;
+
+		stopFlag = false;
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
-			done = true;
-			
+			done = true;			
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
-					temperature = 0.0;
-					cell = cells[i][j];
 					
-					cell.initNeighborIterator();					
-					while (cell.hasMoreNeighbors()) {
-						temperature += cell.getNextNeighborsTemp();
-					}
-					
-					newCells[i][j].setTemperature(temperature / cell.getNoOfNeighbors());
-					//if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) { -- can be faster
-					if (stopPrecision < (newCells[i][j].getTemperature() - cell.getTemperature())) {
+					temperature = cells[i][j].computeAndReturnTemp();			
+					newCells[i][j].setTemperature(temperature);
+					if (true == done && stopPrecision < (temperature - cells[i][j].getTemperature())) {
+					//if (stopPrecision < (newCells[i][j].getTemperature() - cell.getTemperature())) {
 						done = false;
 					}
 				}
 			}
 			swap();
 			iterationCount++;
+			
+			cellTemperatures = getCellTemperatures();
+			notifyTemperatureChange(cellTemperatures);
+			
+			try {
+				if (sleepMilliseconds > 0) { 
+					Thread.sleep(sleepMilliseconds);
+				}
+            } catch (InterruptedException e) {
+            }
+			
 				
 			if (true == done) {
 				break;
 			}
 			
 		}
-		// TODO Auto-generated method stub
 		return true;
 
 	}
 
 	private void swap() {
-		// TODO Auto-generated method stub
 		DoubleCell [][]temp;
 		
 		temp = cells;
 		cells = newCells;
 		newCells = temp;
-		
-		/*
-		int dimension = option.getDimension();
-		for (int i = 1; i <= dimension; i++) {
-			for (int j = 1; j <= dimension; j++) {
-				cells[i][j].setTemperature(newCells[i][j].getTemperature());
-			}
-		}
-		*/		
 	}
+	
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#display()
 	 */
 	public void display() {
-		// TODO Auto-generated method stub
 		DecimalFormat formatter = new DecimalFormat("00.000");
 		int dimension = option.getDimension();
 		
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
-				System.out.print(formatter.format(newCells[i][j].getTemperature()) + " ");
+				System.out.print(formatter.format(cells[i][j].getTemperature()) + " ");
 			}
 			System.out.println();
 		}
 	}
+	
+	public void stop() {
+		stopFlag = true;
+	}
+	
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Option option = new Option();
 		boolean status = option.parseArgs(args);
 		if (true == status) {
@@ -130,6 +147,9 @@ public class doPlate extends ObjectPlate {
 		cells = new DoubleCell[arrayDimension][arrayDimension];
 		newCells = new DoubleCell[arrayDimension][arrayDimension];
 		
+		int dimension = option.getDimension();
+		cellTemperatures = new float[dimension][dimension];
+		
 		for (int i = 0; i < arrayDimension; i++) {
 			for (int j = 0; j < arrayDimension; j++) {
 				cells[i][j] = new DoubleCell();
@@ -139,12 +159,11 @@ public class doPlate extends ObjectPlate {
 		
 		EdgeTemperature edgeTemperature = option.getEdgeTemperature();
 		
-		/*
-		 * dont have to initialize newCells?
-		 */
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[i][0].setTemperature((double)edgeTemperature.getLeft());
+			cells[i][1].setTemperature((double)edgeTemperature.getLeft());			
 			cells[i][arrayDimension - 1].setTemperature((double)edgeTemperature.getRight());
+			cells[i][arrayDimension - 2].setTemperature((double)edgeTemperature.getRight());			
 			
 			newCells[i][0].setTemperature((double)edgeTemperature.getLeft());
 			newCells[i][arrayDimension - 1].setTemperature((double)edgeTemperature.getRight());
@@ -152,14 +171,20 @@ public class doPlate extends ObjectPlate {
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[0][i].setTemperature((double)edgeTemperature.getTop());
+			cells[1][i].setTemperature((double)edgeTemperature.getTop());			
 			cells[arrayDimension - 1][i].setTemperature((double)edgeTemperature.getBottom());
+			cells[arrayDimension - 2][i].setTemperature((double)edgeTemperature.getBottom());			
 			
 			newCells[0][i].setTemperature((double)edgeTemperature.getTop());
 			newCells[arrayDimension - 1][i].setTemperature((double)edgeTemperature.getBottom());
 		}		
-		// TODO Auto-generated method stub
+		
+		cells[1][1].setTemperature((edgeTemperature.getTop() + edgeTemperature.getLeft()) / 2);
+		cells[1][arrayDimension - 2].setTemperature((edgeTemperature.getTop() + edgeTemperature.getRight()) / 2);
+		cells[arrayDimension - 2][1].setTemperature((edgeTemperature.getBottom() + edgeTemperature.getLeft()) / 2);
+		cells[arrayDimension - 2][arrayDimension - 2].setTemperature((edgeTemperature.getBottom() + edgeTemperature.getRight()) / 2);
+		
 
-		int dimension = option.getDimension();
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
 				
@@ -178,10 +203,6 @@ public class doPlate extends ObjectPlate {
 				newCells[i][j].setNeighbors(neighbors);
 			}			
 		}
-
-		
-		// TODO Auto-generated method stub
-		
 	}
 
 }
