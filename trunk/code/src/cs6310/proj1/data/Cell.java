@@ -28,7 +28,8 @@ public abstract class Cell {
 	public void addNeighbor(Cell neighbor) {
 		neighbors.add(neighbor);
 	}
-	public abstract void calculateTemperature();
+	
+	//public abstract void calculateTemperature();
 	
 	public void initNeighborIterator() {
 		iterator = neighbors.iterator();
