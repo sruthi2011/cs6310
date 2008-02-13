@@ -32,6 +32,7 @@ public abstract class Plate {
 	public abstract void display();
 	public abstract void init();
 	protected abstract float[][] getGuiDisplayData();
+	
 	public void setOption(Option option) {
 		this.option = option;
 	}
