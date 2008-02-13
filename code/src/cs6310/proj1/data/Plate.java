@@ -61,4 +61,22 @@ public abstract class Plate {
 			l.temperatureChanged(temperatures);
 		}
 	}
+	
+	protected void notifySimluationStarted() {
+		for (Iterator i = listeners.iterator(); i.hasNext();) {
+			PlateListener l = (PlateListener) i.next();
+			
+			l.simluationStarted();
+		}
+	}
+	
+	
+	protected void notifySimulationStoped() {
+		for (Iterator i = listeners.iterator(); i.hasNext();) {
+			PlateListener l = (PlateListener) i.next();
+			
+			l.simluationStoped();
+		}
+		
+	}
 }

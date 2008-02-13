@@ -10,4 +10,6 @@ package cs6310.proj1.data;
  */
 public interface PlateListener {
 	public void temperatureChanged(float[][] temperatures);
+	public void simluationStarted();
+	public void simluationStoped();
 }
