@@ -59,22 +59,16 @@ public class doPlate extends ObjectPlate {
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
 			
-			//System.out.println("iteration " + iterationCount);
-			//display();
-			
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
 					
 					newCells[i][j].setTemperature(cells[i][j].computeTemperature());
-					//cells[i][j].calculateTemperature();
 					if (true == done && stopPrecision < (newCells[i][j].getTemperature() - cells[i][j].getTemperature())) {
-					//if (stopPrecision < (newCells[i][j].getTemperature() - cell.getTemperature())) {
 						done = false;
 					}
 				}
 			}
 			swap();
-			//updateCellTemperatures();
 			iterationCount++;
 			
 			guiData = getGuiDisplayData();
@@ -105,16 +99,6 @@ public class doPlate extends ObjectPlate {
 		newCells = temp;
 	}
 	
-//	private void updateCellTemperatures() {
-//		int dimension = option.getDimension();
-//		
-//		for (int i = 1; i <= dimension; i++) {
-//			for (int j = 1; j <= dimension; j++) {
-//				cells[i][j].updateTemperature();
-//			}
-//		}
-//	}
-
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#display()
 	 */
@@ -130,11 +114,6 @@ public class doPlate extends ObjectPlate {
 		}
 	}
 	
-//	public void stop() {
-//		stopFlag = true;
-//	}
-	
-
 	/**
 	 * @param args
 	 */
@@ -144,7 +123,6 @@ public class doPlate extends ObjectPlate {
 		if (true == status) {
 			doPlate plate = new doPlate();
 			plate.setOption(option);
-			//plate.init();
 			plate.compute(0);
 			plate.display();
 		}
@@ -218,5 +196,4 @@ public class doPlate extends ObjectPlate {
 			}			
 		}
 	}
-
 }
