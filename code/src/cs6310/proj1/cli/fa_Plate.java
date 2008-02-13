@@ -15,7 +15,7 @@ public class fa_Plate extends ArrayPlate {
 
 	private float cells[][];
 	private float newCells[][];
-	private float cellTemperatures[][];
+	//private float cellTemperatures[][];
 	
 	public fa_Plate() {
 		super();
@@ -25,19 +25,21 @@ public class fa_Plate extends ArrayPlate {
 		super.setOption(option);
 		init();
 		
-		float [][]cellTemperatures = null;
-		cellTemperatures = getCellTemperatures();
-		notifyTemperatureChange(cellTemperatures);
+		float [][]guiData = null;
+		guiData = getGuiDisplayData();
+		notifyTemperatureChange(guiData);
 	}
 	
-	private float[][] getCellTemperatures() {
+	protected float[][] getGuiDisplayData() {
+		/*
 		int dimension = option.getDimension();
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
 				cellTemperatures[i - 1][j - 1] = cells[i][j]; 
 			}
 		}
-		return cellTemperatures;		
+		*/
+		return cells;		
 	}	
 
 	/* (non-Javadoc)
@@ -49,12 +51,16 @@ public class fa_Plate extends ArrayPlate {
 		int dimension = option.getDimension();
 		int maxIterations = option.getMaxIterations();
 		int iterationCount = 0;
-		float [][]cellTemperatures;
+		float [][]guiData;
 		
 		stopFlag = false;
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
+			
+			System.out.println("iteration " + iterationCount);
+			display();
+			
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
 					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
@@ -68,8 +74,8 @@ public class fa_Plate extends ArrayPlate {
 			swap();
 			iterationCount++;
 			
-			cellTemperatures = getCellTemperatures();
-			notifyTemperatureChange(cellTemperatures);
+			guiData = getGuiDisplayData();
+			notifyTemperatureChange(guiData);
 			
 			try {
 				if (sleepMilliseconds > 0) { 
@@ -113,9 +119,9 @@ public class fa_Plate extends ArrayPlate {
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#stop()
 	 */
-	public void stop() {
-		stopFlag = true;
-	}	
+//	public void stop() {
+//		stopFlag = true;
+//	}	
 
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#init()
@@ -126,14 +132,16 @@ public class fa_Plate extends ArrayPlate {
 		cells = new float[arrayDimension][arrayDimension];
 		newCells = new float[arrayDimension][arrayDimension];
 		
-		int dimension = option.getDimension();
-		cellTemperatures = new float[dimension][dimension];		
+		//int dimension = option.getDimension();
+		//cellTemperatures = new float[dimension][dimension];		
 		
 		EdgeTemperature edgeTemperature = option.getEdgeTemperature();
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[i][0] = edgeTemperature.getLeft();
+			cells[i][1] = edgeTemperature.getLeft();
 			cells[i][arrayDimension - 1] = edgeTemperature.getRight();
+			cells[i][arrayDimension - 2] = edgeTemperature.getRight();
 			
 			newCells[i][0] = edgeTemperature.getLeft();
 			newCells[i][arrayDimension - 1] = edgeTemperature.getRight();
@@ -141,11 +149,18 @@ public class fa_Plate extends ArrayPlate {
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[0][i] = edgeTemperature.getTop();
+			cells[1][i] = edgeTemperature.getTop();
 			cells[arrayDimension - 1][i] = edgeTemperature.getBottom();
-			
+			cells[arrayDimension - 2][i] = edgeTemperature.getBottom();
+						
 			newCells[0][i] = edgeTemperature.getTop();
 			newCells[arrayDimension - 1][i] = edgeTemperature.getBottom();
-		}		
+		}
+		
+		cells[1][1] = (edgeTemperature.getTop() + edgeTemperature.getLeft()) / 2;
+		cells[1][arrayDimension - 2] = (edgeTemperature.getTop() + edgeTemperature.getRight()) / 2;
+		cells[arrayDimension - 2][1] = (edgeTemperature.getBottom() + edgeTemperature.getLeft()) / 2;
+		cells[arrayDimension - 2][arrayDimension - 2] = (edgeTemperature.getBottom() + edgeTemperature.getRight()) / 2;
 	}
 
 	/**
@@ -157,7 +172,7 @@ public class fa_Plate extends ArrayPlate {
 		if (true == status) {
 			fa_Plate plate = new fa_Plate();
 			plate.setOption(option);
-			plate.init();
+			//plate.init();
 			plate.compute(0);
 			plate.display();
 		}
