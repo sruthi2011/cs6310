@@ -6,6 +6,7 @@
 
 package cs6310.proj1.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -37,7 +38,7 @@ public class SimulationPanel extends JPanel implements ChangeListener {
 	private void initialize() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-	
+		setBackground(Color.WHITE);
 		this.setPreferredSize(new Dimension(400, 400));
 		
 
@@ -145,6 +146,7 @@ public class SimulationPanel extends JPanel implements ChangeListener {
 		slider.setMinorTickSpacing(5);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
+		slider.setBackground(Color.WHITE);
 	}
 
 	public void repaintPlate() {

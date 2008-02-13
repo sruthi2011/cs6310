@@ -42,5 +42,15 @@ public class MainPanel extends JPanel implements PlateListener {
 	    guiModel.setTemperatures(temperatures);
 	    controlPanel.repaintPlate();
     }
+
+	public void simluationStarted() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void simluationStoped() {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }
