@@ -69,17 +69,20 @@ public class doPlate extends ObjectPlate {
 				}
 			}
 			swap();
+			
 			iterationCount++;
-			
-			guiData = getGuiDisplayData();
-			notifyTemperatureChange(guiData);
-			
-			try {
-				if (sleepMilliseconds > 0) { 
-					Thread.sleep(sleepMilliseconds);
+			if (!listeners.isEmpty()) {
+				guiData = getGuiDisplayData();
+				notifyTemperatureChange(guiData);
+				
+				try {
+					if (sleepMilliseconds > 0) {
+						Thread.sleep(sleepMilliseconds);
+					}
+				} catch (InterruptedException e) {			
 				}
-            } catch (InterruptedException e) {
-            }
+			}
+
 			
 				
 			if (true == done) {
@@ -153,9 +156,9 @@ public class doPlate extends ObjectPlate {
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[i][0].setTemperature((double)edgeTemperature.getLeft());
-			cells[i][1].setTemperature((double)edgeTemperature.getLeft());			
+			//cells[i][1].setTemperature((double)edgeTemperature.getLeft());			
 			cells[i][arrayDimension - 1].setTemperature((double)edgeTemperature.getRight());
-			cells[i][arrayDimension - 2].setTemperature((double)edgeTemperature.getRight());			
+			//cells[i][arrayDimension - 2].setTemperature((double)edgeTemperature.getRight());			
 			
 			newCells[i][0].setTemperature((double)edgeTemperature.getLeft());
 			newCells[i][arrayDimension - 1].setTemperature((double)edgeTemperature.getRight());
@@ -163,18 +166,20 @@ public class doPlate extends ObjectPlate {
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[0][i].setTemperature((double)edgeTemperature.getTop());
-			cells[1][i].setTemperature((double)edgeTemperature.getTop());			
+			//cells[1][i].setTemperature((double)edgeTemperature.getTop());			
 			cells[arrayDimension - 1][i].setTemperature((double)edgeTemperature.getBottom());
-			cells[arrayDimension - 2][i].setTemperature((double)edgeTemperature.getBottom());			
+			//cells[arrayDimension - 2][i].setTemperature((double)edgeTemperature.getBottom());			
 			
 			newCells[0][i].setTemperature((double)edgeTemperature.getTop());
 			newCells[arrayDimension - 1][i].setTemperature((double)edgeTemperature.getBottom());
 		}		
 		
+		/*
 		cells[1][1].setTemperature((edgeTemperature.getTop() + edgeTemperature.getLeft()) / 2);
 		cells[1][arrayDimension - 2].setTemperature((edgeTemperature.getTop() + edgeTemperature.getRight()) / 2);
 		cells[arrayDimension - 2][1].setTemperature((edgeTemperature.getBottom() + edgeTemperature.getLeft()) / 2);
 		cells[arrayDimension - 2][arrayDimension - 2].setTemperature((edgeTemperature.getBottom() + edgeTemperature.getRight()) / 2);
+		*/
 		
 
 		for (int i = 1; i <= dimension; i++) {

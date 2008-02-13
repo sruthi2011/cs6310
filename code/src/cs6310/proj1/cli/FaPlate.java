@@ -66,16 +66,18 @@ public class FaPlate extends ArrayPlate {
 			}
 			swap();
 			iterationCount++;
-				
-			guiData = getGuiDisplayData();
-			notifyTemperatureChange(guiData);
 			
-			try {
-				if (sleepMilliseconds > 0) { 
-					Thread.sleep(sleepMilliseconds);
+			if (!listeners.isEmpty()) {
+				guiData = getGuiDisplayData();
+				notifyTemperatureChange(guiData);
+				
+				try {
+					if (sleepMilliseconds > 0) {
+						Thread.sleep(sleepMilliseconds);
+					}
+				} catch (InterruptedException e) {
 				}
-            } catch (InterruptedException e) {
-            }
+			}
 			
 			if (true == done) {
 				break;
@@ -134,8 +136,8 @@ public class FaPlate extends ArrayPlate {
 		cellTemperatures = new float[dimension][dimension];
 		
 		
-		for (int i = 2; i < arrayDimension - 2; i++) {
-			for (int j = 2; j < arrayDimension - 2; j++) {
+		for (int i = 1; i < arrayDimension - 1; i++) {
+			for (int j = 1; j < arrayDimension - 1; j++) {
 				cells[i][j] = new Float(0.0);
 				newCells[i][j] = new Float(0.0);
 			}
@@ -145,9 +147,9 @@ public class FaPlate extends ArrayPlate {
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[i][0] = new Float(edgeTemperature.getLeft());
-			cells[i][1] = new Float(edgeTemperature.getLeft());
+			//cells[i][1] = new Float(edgeTemperature.getLeft());
 			cells[i][arrayDimension - 1] = new Float(edgeTemperature.getRight());
-			cells[i][arrayDimension - 2] = new Float(edgeTemperature.getRight());			
+			//cells[i][arrayDimension - 2] = new Float(edgeTemperature.getRight());			
 			
 			newCells[i][0] = new Float(edgeTemperature.getLeft());
 			newCells[i][arrayDimension - 1] = new Float(edgeTemperature.getRight());
@@ -155,17 +157,19 @@ public class FaPlate extends ArrayPlate {
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[0][i] = new Float(edgeTemperature.getTop());
-			cells[1][i] = new Float(edgeTemperature.getTop());
+			//cells[1][i] = new Float(edgeTemperature.getTop());
 			cells[arrayDimension - 1][i] = new Float(edgeTemperature.getBottom());
-			cells[arrayDimension - 2][i] = new Float(edgeTemperature.getBottom());			
+			//cells[arrayDimension - 2][i] = new Float(edgeTemperature.getBottom());			
 			
 			newCells[0][i] = new Float(edgeTemperature.getTop());
 			newCells[arrayDimension - 1][i] = new Float(edgeTemperature.getBottom());
 		}
 		
+		/*
 		cells[1][1] = new Float((edgeTemperature.getTop() + edgeTemperature.getLeft()) / 2);
 		cells[1][arrayDimension - 2] = new Float((edgeTemperature.getTop() + edgeTemperature.getRight()) / 2);
 		cells[arrayDimension - 2][1] = new Float((edgeTemperature.getBottom() + edgeTemperature.getLeft()) / 2);
 		cells[arrayDimension - 2][arrayDimension - 2] = new Float((edgeTemperature.getBottom() + edgeTemperature.getRight()) / 2);
+		*/
 	}
 }

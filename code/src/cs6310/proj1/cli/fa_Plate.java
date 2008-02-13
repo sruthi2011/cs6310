@@ -64,15 +64,17 @@ public class fa_Plate extends ArrayPlate {
 			swap();
 			iterationCount++;
 			
-			guiData = getGuiDisplayData();
-			notifyTemperatureChange(guiData);
-			
-			try {
-				if (sleepMilliseconds > 0) { 
-					Thread.sleep(sleepMilliseconds);
+			if (!listeners.isEmpty()) {
+				guiData = getGuiDisplayData();
+				notifyTemperatureChange(guiData);
+				
+				try {
+					if (sleepMilliseconds > 0) {
+						Thread.sleep(sleepMilliseconds);
+					}
+				} catch (InterruptedException e) {
 				}
-            } catch (InterruptedException e) {
-            }
+			}
 			
 				
 			if (true == done) {
@@ -119,9 +121,9 @@ public class fa_Plate extends ArrayPlate {
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[i][0] = edgeTemperature.getLeft();
-			cells[i][1] = edgeTemperature.getLeft();
+			//cells[i][1] = edgeTemperature.getLeft();
 			cells[i][arrayDimension - 1] = edgeTemperature.getRight();
-			cells[i][arrayDimension - 2] = edgeTemperature.getRight();
+			//cells[i][arrayDimension - 2] = edgeTemperature.getRight();
 			
 			newCells[i][0] = edgeTemperature.getLeft();
 			newCells[i][arrayDimension - 1] = edgeTemperature.getRight();
@@ -129,18 +131,19 @@ public class fa_Plate extends ArrayPlate {
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[0][i] = edgeTemperature.getTop();
-			cells[1][i] = edgeTemperature.getTop();
+			//cells[1][i] = edgeTemperature.getTop();
 			cells[arrayDimension - 1][i] = edgeTemperature.getBottom();
-			cells[arrayDimension - 2][i] = edgeTemperature.getBottom();
+			//cells[arrayDimension - 2][i] = edgeTemperature.getBottom();
 						
 			newCells[0][i] = edgeTemperature.getTop();
 			newCells[arrayDimension - 1][i] = edgeTemperature.getBottom();
 		}
-		
+		/*
 		cells[1][1] = (edgeTemperature.getTop() + edgeTemperature.getLeft()) / 2;
 		cells[1][arrayDimension - 2] = (edgeTemperature.getTop() + edgeTemperature.getRight()) / 2;
 		cells[arrayDimension - 2][1] = (edgeTemperature.getBottom() + edgeTemperature.getLeft()) / 2;
 		cells[arrayDimension - 2][arrayDimension - 2] = (edgeTemperature.getBottom() + edgeTemperature.getRight()) / 2;
+		*/
 	}
 
 	/**
