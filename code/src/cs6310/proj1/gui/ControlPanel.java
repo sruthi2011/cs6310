@@ -68,7 +68,7 @@ public class ControlPanel extends JPanel
 	private void initialize() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		
+		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(560, 88));
 		//Type Label
 		simModelLabel = new JLabel();
@@ -212,7 +212,6 @@ public class ControlPanel extends JPanel
 		c.weighty = 0.5;
 		c.insets = new Insets(0, 5, 5, 5);
 		add(simPanel, c);
-			
 	}
 	
 	public void repaintPlate() {
