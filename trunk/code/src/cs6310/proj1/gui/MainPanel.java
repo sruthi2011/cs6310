@@ -14,7 +14,6 @@ import cs6310.proj1.data.PlateListener;
 
 public class MainPanel extends JPanel implements PlateListener {
 	ControlPanel controlPanel;
-	SimulationPanel simulationPanel;
 	StatusPanel	statusPanel;
 	
 	GUIModel guiModel;
