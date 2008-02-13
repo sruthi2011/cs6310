@@ -16,6 +16,7 @@ public class daPlate extends ArrayPlate {
 	
 	private double cells[][];
 	private double newCells[][];
+	private float cellTemperatures[][];
 	
 	public daPlate() {
 		super();
@@ -29,19 +30,15 @@ public class daPlate extends ArrayPlate {
 		cellTemperatures = getCellTemperatures();
 		notifyTemperatureChange(cellTemperatures);
 	}
+	
 	private float[][] getCellTemperatures() {
-		
-		// TODO Auto-generated method stub
 		int dimension = option.getDimension();
-		float[][] cellTemperatures = new float[dimension][dimension];
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
-				cellTemperatures[i - 1][j - 1] = (float) cells[i][j]; 
+				cellTemperatures[i - 1][j - 1] = (float)cells[i][j]; 
 			}
 		}
-		return cellTemperatures;
-		
-		
+		return cellTemperatures;		
 	}
 
 	/* (non-Javadoc)
@@ -62,12 +59,13 @@ public class daPlate extends ArrayPlate {
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
+			
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
 					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
 									  cells[i - 1][j] + cells[i + 1][j]) / 4.0;
-					//if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) { -- can be faster
-					if (stopPrecision < (newCells[i][j] - cells[i][j])) {
+					if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) {
+					//if (stopPrecision < (newCells[i][j] - cells[i][j])) {
 						done = false;
 					}
 				}
@@ -89,7 +87,6 @@ public class daPlate extends ArrayPlate {
 				break;
 			}
 		}
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -101,29 +98,18 @@ public class daPlate extends ArrayPlate {
 		temp = cells;
 		cells = newCells;
 		newCells = temp;
-		/*
-		int dimension = option.getDimension();
-		for (int i = 1; i <= dimension; i++) {
-			for (int j = 1; j <= dimension; j++) {
-				cells[i][j] = newCells[i][j];
-			}
-		}
-		*/
-		// TODO Auto-generated method stub
 	}
 
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#display()
 	 */
 	public void display() {
-		// TODO Auto-generated method stub
-		
 		DecimalFormat formatter = new DecimalFormat("00.000");
 		int dimension = option.getDimension();
 		
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
-				System.out.print(formatter.format(newCells[i][j]) + " ");
+				System.out.print(formatter.format(cells[i][j]) + " ");
 			}
 			System.out.println();
 		}
@@ -134,7 +120,6 @@ public class daPlate extends ArrayPlate {
 	 * @see cs6310.proj1.data.Plate#stop()
 	 */
 	public void stop() {
-		// TODO Auto-generated method stub
 		stopFlag = true;
 	}
 
@@ -156,8 +141,6 @@ public class daPlate extends ArrayPlate {
 			System.out.println("error parsing arguments.");
 			System.out.println("Usage: <program_name> -d # -l # -r # -t # -b #");
 		}
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -169,11 +152,11 @@ public class daPlate extends ArrayPlate {
 		cells = new double[arrayDimension][arrayDimension];
 		newCells = new double[arrayDimension][arrayDimension];
 		
-		EdgeTemperature edgeTemperature = option.getEdgeTemperature();
+		int dimension = option.getDimension();
+		cellTemperatures = new float[dimension][dimension];
 		
-		/*
-		 * dont have to initialize newCells?
-		 */
+		EdgeTemperature edgeTemperature = option.getEdgeTemperature();
+
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[i][0] = edgeTemperature.getLeft();
 			cells[i][1] = edgeTemperature.getLeft();
@@ -181,9 +164,7 @@ public class daPlate extends ArrayPlate {
 			cells[i][arrayDimension - 2] = edgeTemperature.getRight();
 			
 			newCells[i][0] = edgeTemperature.getLeft();
-			newCells[i][1] = edgeTemperature.getLeft();
 			newCells[i][arrayDimension - 1] = edgeTemperature.getRight();
-			newCells[i][arrayDimension - 2] = edgeTemperature.getRight();
 		}
 		
 		for (int i = 1; i < (arrayDimension - 1); i++) {
@@ -191,14 +172,15 @@ public class daPlate extends ArrayPlate {
 			cells[1][i] = edgeTemperature.getTop();
 			cells[arrayDimension - 1][i] = edgeTemperature.getBottom();
 			cells[arrayDimension - 2][i] = edgeTemperature.getBottom();
-			
+						
 			newCells[0][i] = edgeTemperature.getTop();
-			newCells[1][i] = edgeTemperature.getTop();
 			newCells[arrayDimension - 1][i] = edgeTemperature.getBottom();
-			newCells[arrayDimension - 2][i] = edgeTemperature.getBottom();
-		}		
-		// TODO Auto-generated method stub
+		}
 		
+		cells[1][1] = (edgeTemperature.getTop() + edgeTemperature.getLeft()) / 2;
+		cells[1][arrayDimension - 2] = (edgeTemperature.getTop() + edgeTemperature.getRight()) / 2;
+		cells[arrayDimension - 2][1] = (edgeTemperature.getBottom() + edgeTemperature.getLeft()) / 2;
+		cells[arrayDimension - 2][arrayDimension - 2] = (edgeTemperature.getBottom() + edgeTemperature.getRight()) / 2;
 	}
 
 }
