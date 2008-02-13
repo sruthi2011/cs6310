@@ -15,22 +15,43 @@ public class fa_Plate extends ArrayPlate {
 
 	private float cells[][];
 	private float newCells[][];
+	private float cellTemperatures[][];
 	
 	public fa_Plate() {
 		super();
 	}
 
+	public void setOption(Option option) {
+		super.setOption(option);
+		init();
+		
+		float [][]cellTemperatures = null;
+		cellTemperatures = getCellTemperatures();
+		notifyTemperatureChange(cellTemperatures);
+	}
+	
+	private float[][] getCellTemperatures() {
+		int dimension = option.getDimension();
+		for (int i = 1; i <= dimension; i++) {
+			for (int j = 1; j <= dimension; j++) {
+				cellTemperatures[i - 1][j - 1] = cells[i][j]; 
+			}
+		}
+		return cellTemperatures;		
+	}	
 
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#compute()
 	 */
 	public boolean compute(long sleepMilliseconds) {
-		// TODO Auto-generated method stub
 		boolean done;
 		double stopPrecision = option.getStopPrecison();
 		int dimension = option.getDimension();
 		int maxIterations = option.getMaxIterations();
 		int iterationCount = 0;
+		float [][]cellTemperatures;
+		
+		stopFlag = false;
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
@@ -38,20 +59,30 @@ public class fa_Plate extends ArrayPlate {
 				for (int j = 1; j <= dimension; j++) {
 					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
 									  cells[i - 1][j] + cells[i + 1][j]) / 4.0f;
-					//if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) { -- can be faster
-					if (stopPrecision < (newCells[i][j] - cells[i][j])) {
+					if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) {
+					//if (stopPrecision < (newCells[i][j] - cells[i][j])) {
 						done = false;
 					}
 				}
 			}
 			swap();
 			iterationCount++;
+			
+			cellTemperatures = getCellTemperatures();
+			notifyTemperatureChange(cellTemperatures);
+			
+			try {
+				if (sleepMilliseconds > 0) { 
+					Thread.sleep(sleepMilliseconds);
+				}
+            } catch (InterruptedException e) {
+            }
+			
 				
 			if (true == done) {
 				break;
 			}
 		}
-		// TODO Auto-generated method stub
 		return true;
 
 	}
@@ -62,28 +93,18 @@ public class fa_Plate extends ArrayPlate {
 		temp = cells;
 		cells = newCells;
 		newCells = temp;
-		/*
-		int dimension = option.getDimension();
-		for (int i = 1; i <= dimension; i++) {
-			for (int j = 1; j <= dimension; j++) {
-				cells[i][j] = newCells[i][j];
-			}
-		}
-		*/
-		// TODO Auto-generated method stub
 	}	
 
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#display()
 	 */
 	public void display() {
-		// TODO Auto-generated method stub
 		DecimalFormat formatter = new DecimalFormat("00.000");
 		int dimension = option.getDimension();
 		
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
-				System.out.print(formatter.format(newCells[i][j]) + " ");
+				System.out.print(formatter.format(cells[i][j]) + " ");
 			}
 			System.out.println();
 		}
@@ -93,7 +114,6 @@ public class fa_Plate extends ArrayPlate {
 	 * @see cs6310.proj1.data.Plate#stop()
 	 */
 	public void stop() {
-		// TODO Auto-generated method stub
 		stopFlag = true;
 	}	
 
@@ -101,17 +121,16 @@ public class fa_Plate extends ArrayPlate {
 	 * @see cs6310.proj1.data.Plate#init()
 	 */
 	public void init() {
-		// TODO Auto-generated method stub
 		int arrayDimension = option.getDimension() + 2;
 		
 		cells = new float[arrayDimension][arrayDimension];
 		newCells = new float[arrayDimension][arrayDimension];
 		
+		int dimension = option.getDimension();
+		cellTemperatures = new float[dimension][dimension];		
+		
 		EdgeTemperature edgeTemperature = option.getEdgeTemperature();
 		
-		/*
-		 * dont have to initialize newCells?
-		 */
 		for (int i = 1; i < (arrayDimension - 1); i++) {
 			cells[i][0] = edgeTemperature.getLeft();
 			cells[i][arrayDimension - 1] = edgeTemperature.getRight();
@@ -127,15 +146,12 @@ public class fa_Plate extends ArrayPlate {
 			newCells[0][i] = edgeTemperature.getTop();
 			newCells[arrayDimension - 1][i] = edgeTemperature.getBottom();
 		}		
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Option option = new Option();
 		boolean status = option.parseArgs(args);
 		if (true == status) {
