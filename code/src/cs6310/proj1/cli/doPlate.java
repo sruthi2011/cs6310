@@ -29,12 +29,12 @@ public class doPlate extends ObjectPlate {
 		super.setOption(option);
 		init();
 		
-		float [][]cellTemperatures = null;
-		cellTemperatures = getCellTemperatures();
-		notifyTemperatureChange(cellTemperatures);
+		float [][]guiData = null;
+		guiData = getGuiDisplayData();
+		notifyTemperatureChange(guiData);
 	}
 	
-	private float[][] getCellTemperatures() {
+	protected float[][] getGuiDisplayData() {
 		int dimension = option.getDimension();
 		for (int i = 1; i <= dimension; i++) {
 			for (int j = 1; j <= dimension; j++) {
@@ -52,29 +52,33 @@ public class doPlate extends ObjectPlate {
 		int dimension = option.getDimension();
 		int maxIterations = option.getMaxIterations();
 		int iterationCount = 0;
-		float [][]cellTemperatures;		
-		double temperature;
-
+		float [][]guiData;		
+		
 		stopFlag = false;
 		
 		while (iterationCount < maxIterations && false == stopFlag) {
-			done = true;			
+			done = true;
+			
+			//System.out.println("iteration " + iterationCount);
+			//display();
+			
 			for (int i = 1; i <= dimension; i++) {
 				for (int j = 1; j <= dimension; j++) {
 					
-					temperature = cells[i][j].computeAndReturnTemp();			
-					newCells[i][j].setTemperature(temperature);
-					if (true == done && stopPrecision < (temperature - cells[i][j].getTemperature())) {
+					newCells[i][j].setTemperature(cells[i][j].computeTemperature());
+					//cells[i][j].calculateTemperature();
+					if (true == done && stopPrecision < (newCells[i][j].getTemperature() - cells[i][j].getTemperature())) {
 					//if (stopPrecision < (newCells[i][j].getTemperature() - cell.getTemperature())) {
 						done = false;
 					}
 				}
 			}
 			swap();
+			//updateCellTemperatures();
 			iterationCount++;
 			
-			cellTemperatures = getCellTemperatures();
-			notifyTemperatureChange(cellTemperatures);
+			guiData = getGuiDisplayData();
+			notifyTemperatureChange(guiData);
 			
 			try {
 				if (sleepMilliseconds > 0) { 
@@ -101,6 +105,16 @@ public class doPlate extends ObjectPlate {
 		newCells = temp;
 	}
 	
+//	private void updateCellTemperatures() {
+//		int dimension = option.getDimension();
+//		
+//		for (int i = 1; i <= dimension; i++) {
+//			for (int j = 1; j <= dimension; j++) {
+//				cells[i][j].updateTemperature();
+//			}
+//		}
+//	}
+
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#display()
 	 */
@@ -116,9 +130,9 @@ public class doPlate extends ObjectPlate {
 		}
 	}
 	
-	public void stop() {
-		stopFlag = true;
-	}
+//	public void stop() {
+//		stopFlag = true;
+//	}
 	
 
 	/**
@@ -130,7 +144,7 @@ public class doPlate extends ObjectPlate {
 		if (true == status) {
 			doPlate plate = new doPlate();
 			plate.setOption(option);
-			plate.init();
+			//plate.init();
 			plate.compute(0);
 			plate.display();
 		}
