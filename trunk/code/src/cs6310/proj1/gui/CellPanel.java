@@ -18,6 +18,7 @@ public class CellPanel extends JPanel {
     }
 	
 	public void paintComponent(Graphics g) {
+		setBackground(Color.WHITE);
 		super.paintComponent(g); //Paint the background
 		
 		Graphics2D g2d = (Graphics2D) g;

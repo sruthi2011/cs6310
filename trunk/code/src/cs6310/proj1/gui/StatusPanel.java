@@ -18,7 +18,7 @@ public class StatusPanel extends JPanel {
 	
 	private void initialize() {
 		setLayout(new BorderLayout(5, 5));
-
+		
 		separator = new JSeparator();
 		messageArea = new JTextArea();
 		messageArea.setEditable(false);
@@ -26,6 +26,5 @@ public class StatusPanel extends JPanel {
 		
 		add(separator, BorderLayout.NORTH);
 		add(messageArea, BorderLayout.CENTER);
-		
 	}
 }
