@@ -15,7 +15,6 @@ public class fa_Plate extends ArrayPlate {
 
 	private float cells[][];
 	private float newCells[][];
-	//private float cellTemperatures[][];
 	
 	public fa_Plate() {
 		super();
@@ -31,14 +30,6 @@ public class fa_Plate extends ArrayPlate {
 	}
 	
 	protected float[][] getGuiDisplayData() {
-		/*
-		int dimension = option.getDimension();
-		for (int i = 1; i <= dimension; i++) {
-			for (int j = 1; j <= dimension; j++) {
-				cellTemperatures[i - 1][j - 1] = cells[i][j]; 
-			}
-		}
-		*/
 		return cells;		
 	}	
 
@@ -66,7 +57,6 @@ public class fa_Plate extends ArrayPlate {
 					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
 									  cells[i - 1][j] + cells[i + 1][j]) / 4.0f;
 					if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) {
-					//if (stopPrecision < (newCells[i][j] - cells[i][j])) {
 						done = false;
 					}
 				}
@@ -115,13 +105,6 @@ public class fa_Plate extends ArrayPlate {
 			System.out.println();
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see cs6310.proj1.data.Plate#stop()
-	 */
-//	public void stop() {
-//		stopFlag = true;
-//	}	
 
 	/* (non-Javadoc)
 	 * @see cs6310.proj1.data.Plate#init()
@@ -131,9 +114,6 @@ public class fa_Plate extends ArrayPlate {
 		
 		cells = new float[arrayDimension][arrayDimension];
 		newCells = new float[arrayDimension][arrayDimension];
-		
-		//int dimension = option.getDimension();
-		//cellTemperatures = new float[dimension][dimension];		
 		
 		EdgeTemperature edgeTemperature = option.getEdgeTemperature();
 		
@@ -172,7 +152,6 @@ public class fa_Plate extends ArrayPlate {
 		if (true == status) {
 			fa_Plate plate = new fa_Plate();
 			plate.setOption(option);
-			//plate.init();
 			plate.compute(0);
 			plate.display();
 		}

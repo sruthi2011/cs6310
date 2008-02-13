@@ -30,9 +30,6 @@ public class Option {
 		int [] mandCount = new int[mandArgs.length];
 		int [] optCount = new int[optArgs.length];
 
-		//Object [] mandValue = new Object[mandArgs.length];
-		//Object [] optValue = new Object[optArgs.length];
-
 		try {
 
 			String arg;
