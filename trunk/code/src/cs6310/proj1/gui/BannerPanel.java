@@ -39,13 +39,13 @@ public class BannerPanel extends JPanel {
 	    g2d.setPaint(gradientPaint);
 	    g2d.fillRect(0, 0, bounds.width, bounds.height);
 	    
-	    g2d.setPaint(Color.WHITE);
+	    
 		
 		Map map = new Hashtable();
 		map.put(TextAttribute.KERNING, TextAttribute.KERNING_ON);
 		map.put(TextAttribute.SIZE, new Integer(30));
 		map.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-//		map.put(TextAttribute., TextAttribute.WEIGHT_BOLD);
+		
 		
 		Font font = getFont().deriveFont(map);
 		g2d.setFont(font);
@@ -65,6 +65,10 @@ public class BannerPanel extends JPanel {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
 		
+		g2d.setPaint(new Color(0, 0, 0, 100));;
+		g2d.drawString(TITILE, leftOffset + 2, topOffset + 2);
+		
+		g2d.setPaint(Color.WHITE);
 		g2d.drawString(TITILE, leftOffset, topOffset);
 		
 	}
