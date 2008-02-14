@@ -299,13 +299,13 @@ public class MainPanel extends JPanel	implements
 	public void simluationStarted() {
 		running = true;
 		toggleControlBtn();
-		setControlEnable(!running);
+		setControlEnable(false);
     }
 
 	public void simluationStoped() {
-		running = true;
+		running = false;
 		toggleControlBtn();
-		setControlEnable(!running);
+		setControlEnable(true);
     }
 	
 	
