@@ -106,7 +106,7 @@ public class doPlate extends ObjectPlate {
 	 * @see cs6310.proj1.data.Plate#display()
 	 */
 	public void display() {
-		DecimalFormat formatter = new DecimalFormat("00.000");
+		DecimalFormat formatter = new DecimalFormat("00.00");
 		int dimension = option.getDimension();
 		
 		for (int i = 1; i <= dimension; i++) {
