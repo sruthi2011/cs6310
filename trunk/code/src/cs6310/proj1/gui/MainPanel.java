@@ -389,15 +389,9 @@ public class MainPanel extends JPanel	implements
 	public void actionPerformed(ActionEvent e) {
 		if (!running) {
 			simPanel.startSimulation();
-//			running = true;
 		} else {
 			simPanel.stopSimulation();
-//			running = false;
 		}
-//		
-//		toggleControlBtn();
-//		
-//		setControlEnable(!running);
     }
 
 }
