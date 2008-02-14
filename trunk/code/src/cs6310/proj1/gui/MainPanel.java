@@ -419,6 +419,7 @@ public class MainPanel extends JPanel	implements
 
 	public void actionPerformed(ActionEvent e) {
 		if (!running) {
+			guiModel.getPlate().setOption(guiModel.getOption());
 			simPanel.startSimulation();
 		} else {
 			simPanel.stopSimulation();
