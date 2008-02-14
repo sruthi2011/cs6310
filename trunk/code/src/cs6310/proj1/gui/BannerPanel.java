@@ -45,6 +45,8 @@ public class BannerPanel extends JPanel {
 		map.put(TextAttribute.KERNING, TextAttribute.KERNING_ON);
 		map.put(TextAttribute.SIZE, new Integer(30));
 		map.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+//		map.put(TextAttribute., TextAttribute.WEIGHT_BOLD);
+		
 		Font font = getFont().deriveFont(map);
 		g2d.setFont(font);
 		
