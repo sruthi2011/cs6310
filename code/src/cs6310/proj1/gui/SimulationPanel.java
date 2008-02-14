@@ -11,7 +11,9 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Dictionary;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -25,6 +27,7 @@ public class SimulationPanel extends JPanel implements ChangeListener {
 	private JSlider leftSlider;
 	
 	private GUIModel guiModel;
+	Dictionary sliderLabels;
 	
 	public SimulationPanel(GUIModel guiModel) {
 	    if (guiModel == null) {
@@ -41,7 +44,12 @@ public class SimulationPanel extends JPanel implements ChangeListener {
 		setBackground(Color.WHITE);
 		this.setPreferredSize(new Dimension(400, 400));
 		
-
+		sliderLabels = new java.util.Hashtable();
+		sliderLabels.put(new Integer(0), new JLabel("0 °C"));
+		sliderLabels.put(new Integer(25), new JLabel("25 °C"));
+		sliderLabels.put(new Integer(50), new JLabel("50 °C"));
+		sliderLabels.put(new Integer(75), new JLabel("75 °C"));
+		sliderLabels.put(new Integer(100), new JLabel("100 °C"));
 		
 		topSlider = new JSlider();
 		topSlider.setOrientation(JSlider.HORIZONTAL);
@@ -147,6 +155,7 @@ public class SimulationPanel extends JPanel implements ChangeListener {
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
 		slider.setBackground(Color.WHITE);
+		slider.setLabelTable(sliderLabels);
 	}
 
 	public void repaintPlate() {
