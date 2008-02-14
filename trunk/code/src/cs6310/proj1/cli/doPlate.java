@@ -6,10 +6,8 @@ package cs6310.proj1.cli;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
-import cs6310.proj1.data.DoubleCell;
-import cs6310.proj1.data.EdgeTemperature;
-import cs6310.proj1.data.ObjectPlate;
-import cs6310.proj1.data.Option;
+import cs6310.proj1.data.*;
+//import com.jamonapi.*;
 
 /**
  * @author Nagesh
@@ -56,6 +54,7 @@ public class doPlate extends ObjectPlate {
 		
 		stopFlag = false;
 		
+		notifySimluationStarted();
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
 			
@@ -90,6 +89,7 @@ public class doPlate extends ObjectPlate {
 			}
 			
 		}
+		notifySimulationStoped();
 		return true;
 
 	}
