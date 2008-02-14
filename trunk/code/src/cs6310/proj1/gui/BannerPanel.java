@@ -58,7 +58,8 @@ public class BannerPanel extends JPanel {
 		
 		//To center the image.
 		float leftOffset = (getWidth() - titleSize.width) / 2;
-		float topOffset = (bounds.height - titleSize.height) / 2 + metrics.getAscent();
+		float topOffset = (bounds.height - titleSize.height) / 2 
+			+ metrics.getAscent();
 		
 		g2d.setRenderingHint(
 				RenderingHints.KEY_TEXT_ANTIALIASING,
