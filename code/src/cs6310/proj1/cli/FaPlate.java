@@ -5,7 +5,9 @@ package cs6310.proj1.cli;
 
 import java.text.DecimalFormat;
 
-import cs6310.proj1.data.*;
+import cs6310.proj1.data.ArrayPlate;
+import cs6310.proj1.data.EdgeTemperature;
+import cs6310.proj1.data.Option;
 
 /**
  * @author Nagesh
@@ -60,7 +62,7 @@ public class FaPlate extends ArrayPlate {
 				for (int j = 1; j <= dimension; j++) {
 					newCells[i][j] = new Float((cells[i][j - 1].floatValue() + cells[i][j + 1].floatValue() + 
 									  cells[i - 1][j].floatValue() + cells[i + 1][j].floatValue()) / 4.0);
-					if (true == done && stopPrecision < (newCells[i][j].floatValue() - cells[i][j].floatValue())) {
+					if (true == done && stopPrecision < Math.abs((newCells[i][j].floatValue() - cells[i][j].floatValue()))) {
 						done = false;
 					}
 				}

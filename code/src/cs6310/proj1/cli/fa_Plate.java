@@ -5,8 +5,9 @@ package cs6310.proj1.cli;
 
 import java.text.DecimalFormat;
 
-import cs6310.proj1.data.*;
-//import com.jamonapi.*;
+import cs6310.proj1.data.ArrayPlate;
+import cs6310.proj1.data.EdgeTemperature;
+import cs6310.proj1.data.Option;
 
 /**
  * @author Nagesh
@@ -58,7 +59,7 @@ public class fa_Plate extends ArrayPlate {
 				for (int j = 1; j <= dimension; j++) {
 					newCells[i][j] = (cells[i][j - 1] + cells[i][j + 1] + 
 									  cells[i - 1][j] + cells[i + 1][j]) / 4.0f;
-					if (true == done && stopPrecision < (newCells[i][j] - cells[i][j])) {
+					if (true == done && stopPrecision < Math.abs((newCells[i][j] - cells[i][j]))) {
 						done = false;
 					}
 				}
