@@ -246,10 +246,6 @@ public class MainPanel extends JPanel	implements
 		add(statusPanel, c);
 	}
 	
-	public void repaintPlate() {
-		simPanel.repaintPlate();
-	}
-	
 	private ComboBoxModel getSimModelComboModel(Plate currentPlate) {
 		assert currentPlate != null;
 		
@@ -340,7 +336,7 @@ public class MainPanel extends JPanel	implements
     }
 	
 	
-	public void displayErrorMessage(String errorMsg) {
+	private void displayErrorMessage(String errorMsg) {
 		if (errorMsg == null || errorMsg.isEmpty()) {
 			messageTextArea.setText("");
 		}
