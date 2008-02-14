@@ -52,6 +52,7 @@ public class FaPlate extends ArrayPlate {
 		
 		stopFlag = false;		
 		
+		notifySimluationStarted();
 		while (iterationCount < maxIterations && false == stopFlag) {
 			done = true;
 			
@@ -83,6 +84,7 @@ public class FaPlate extends ArrayPlate {
 				break;
 			}
 		}
+		notifySimulationStoped();
 		return true;
 	}
 	
