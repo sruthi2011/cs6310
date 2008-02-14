@@ -86,7 +86,7 @@ public class MainPanel extends JPanel	implements
 		c.gridwidth = 4;
 		c.gridheight = 1;
 		c.weightx = 1.0;
-		c.weighty = 0.5;
+//		c.weighty = 0.1;
 		c.insets = new Insets(0, 0, 0, 0);
 		add(bannerPanel, c);
 		
@@ -229,7 +229,7 @@ public class MainPanel extends JPanel	implements
 		c.gridwidth = 4;
 		c.gridheight = 1;
 		c.weightx = 1.0;
-		c.weighty = .9;
+		c.weighty = 1.0;
 		c.insets = new Insets(0, 5, 5, 5);
 		add(simPanel, c);
 		
@@ -332,7 +332,11 @@ public class MainPanel extends JPanel	implements
 		running = false;
 		toggleControlBtn();
 		setControlEnable(true);
-		statusPanel.setMessage("Simulation stopped.");
+	    
+		StringBuffer msg = new StringBuffer("Simluation stopped. Step:");
+	    msg.append(stepCount);
+	    
+		statusPanel.setMessage(msg.toString());
     }
 	
 	
