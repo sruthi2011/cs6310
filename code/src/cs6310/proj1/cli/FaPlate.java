@@ -26,7 +26,7 @@ public class FaPlate extends ArrayPlate {
 		init();
 		
 		float [][]guiData = null;
-		cellTemperatures = getGuiDisplayData();
+		guiData = getGuiDisplayData();
 		notifyTemperatureChange(guiData);
 	}
 	
