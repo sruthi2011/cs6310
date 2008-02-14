@@ -39,6 +39,6 @@ public class DoubleCell extends Cell {
 		while (iterator.hasNext()) {
 			neighborSum += ((DoubleCell)iterator.next()).getTemperature(); 
 		}
-		return (neighborSum / 4.0);
+		return (neighborSum / neighbors.size());
 	}
 }
