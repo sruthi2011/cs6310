@@ -16,6 +16,10 @@ public class StatusPanel extends JPanel {
 		initialize();
 	}
 	
+	public void setMessage(String message) {
+		messageArea.setText(message);
+	}
+	
 	private void initialize() {
 		setLayout(new BorderLayout(5, 5));
 		
