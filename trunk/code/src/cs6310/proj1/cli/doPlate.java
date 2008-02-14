@@ -6,8 +6,10 @@ package cs6310.proj1.cli;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
-import cs6310.proj1.data.*;
-//import com.jamonapi.*;
+import cs6310.proj1.data.DoubleCell;
+import cs6310.proj1.data.EdgeTemperature;
+import cs6310.proj1.data.ObjectPlate;
+import cs6310.proj1.data.Option;
 
 /**
  * @author Nagesh
@@ -62,7 +64,7 @@ public class doPlate extends ObjectPlate {
 				for (int j = 1; j <= dimension; j++) {
 					
 					newCells[i][j].setTemperature(cells[i][j].computeTemperature());
-					if (true == done && stopPrecision < (newCells[i][j].getTemperature() - cells[i][j].getTemperature())) {
+					if (true == done && stopPrecision < Math.abs((newCells[i][j].getTemperature() - cells[i][j].getTemperature()))) {
 						done = false;
 					}
 				}
