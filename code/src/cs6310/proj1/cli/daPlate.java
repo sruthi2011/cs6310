@@ -127,15 +127,15 @@ public class daPlate extends ArrayPlate {
 		
 		Option option = new Option();
 		boolean status = option.parseArgs(args);
-		Monitor monitor = null;
+		//Monitor monitor = null;
 		if (true == status) {
 			for (int i = 0; i < 11; i++) {
 				daPlate plate = new daPlate();
 				plate.setOption(option);
-				monitor = MonitorFactory.start();
+			//	monitor = MonitorFactory.start();
 				plate.compute(0);
-				monitor.stop();
-				System.out.println("Iteration " + i + " - " + monitor);
+				//monitor.stop();
+				//System.out.println("Iteration " + i + " - " + monitor);
 				//plate.display();
 			}
 			
