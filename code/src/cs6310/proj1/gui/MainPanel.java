@@ -56,6 +56,7 @@ public class MainPanel extends JPanel	implements
 	
 	private GUIModel guiModel;
 	private boolean running = false;
+	private int stepCount = 0;
 	
 	public MainPanel() {
 		guiModel = new GUIModel();
@@ -294,18 +295,28 @@ public class MainPanel extends JPanel	implements
 	public void temperatureChanged(float[][] temperatures) {
 	    guiModel.setTemperatures(temperatures);
 	    simPanel.repaintPlate();
+	    stepCount++;
+	    
+	    if (running) {
+		    StringBuffer msg = new StringBuffer("Simluation is running. Step:");
+		    msg.append(stepCount);
+		    statusPanel.setMessage(msg.toString());
+	    }
     }
 
 	public void simluationStarted() {
+		stepCount = 0;
 		running = true;
 		toggleControlBtn();
 		setControlEnable(false);
+		statusPanel.setMessage("Simulation started.");
     }
 
 	public void simluationStoped() {
 		running = false;
 		toggleControlBtn();
 		setControlEnable(true);
+		statusPanel.setMessage("Simulation stopped.");
     }
 	
 	

@@ -21,7 +21,7 @@ public class StatusPanel extends JPanel {
 	}
 	
 	private void initialize() {
-		setLayout(new BorderLayout(5, 5));
+		setLayout(new BorderLayout(5, 0));
 		
 		separator = new JSeparator();
 		messageArea = new JTextArea();
