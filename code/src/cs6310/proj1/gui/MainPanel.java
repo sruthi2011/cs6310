@@ -51,6 +51,8 @@ public class MainPanel extends JPanel	implements
 	private ImageIcon stopIcon;
 	
 	private JTextArea messageTextArea;
+	
+	private BannerPanel bannerPanel;
 	private SimulationPanel simPanel;
 	private StatusPanel statusPanel;
 	
@@ -74,12 +76,26 @@ public class MainPanel extends JPanel	implements
 		GridBagConstraints c = new GridBagConstraints();
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(560, 88));
+		
+		
+		bannerPanel = new BannerPanel();
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 4;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		c.weighty = 0.2;
+		c.insets = new Insets(0, 0, 0, 0);
+		add(bannerPanel, c);
+		
 		//Type Label
 		simModelLabel = new JLabel();
 		simModelLabel.setText("Simluation Model:");
 		c.anchor = GridBagConstraints.WEST;
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.insets = new Insets(5, 5, 5, 5);
@@ -95,7 +111,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.weightx = 0.2;
@@ -108,7 +124,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.insets = new Insets(5, 0, 5, 5);
@@ -124,7 +140,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;		
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.weightx = 0.2;
@@ -137,7 +153,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 2;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.insets = new Insets(5, 0, 5, 5);
@@ -153,7 +169,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.weightx = 0.2;
@@ -172,7 +188,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.EAST;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.gridx = 3;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.weightx = 0.4;
@@ -183,7 +199,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.gridwidth = 4;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -198,7 +214,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 4;
 		c.gridwidth = 4;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -209,7 +225,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 5;
 		c.gridwidth = 4;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -222,7 +238,7 @@ public class MainPanel extends JPanel	implements
 		c.anchor = GridBagConstraints.SOUTH;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 6;
 		c.gridwidth = 4;
 		c.gridheight = 1;
 		c.weightx = 1.0;
