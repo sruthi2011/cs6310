@@ -52,23 +52,29 @@ public class Option {
 						int value = Integer.valueOf(argValue).intValue();
 						switch(j) {
 						case 0:
-							if (0 < value) {
+							if (1 < value && value <= 2000) {
 								dimension = value;	
 							}
 							else {
+								System.out.println("Dimension should be between 2 and 2000 (inclusive)");
 								throw new Exception();
 							}							 
 							break;
 						case 1:
 							if (0 <= value && 100 >= value) {
 								edgeTemperature.setLeft((float)value);	
-							}							
+							}
+							else {
+								System.out.println("Edge temperature should be between 0 and 100");
+								throw new Exception();
+							}
 							break;
 						case 2:
 							if (0 <= value && 100 >= value) {
 								edgeTemperature.setRight((float)value);								
 							}
 							else {
+								System.out.println("Edge temperature should be between 0 and 100");
 								throw new Exception();								
 							}
 
@@ -78,6 +84,7 @@ public class Option {
 								edgeTemperature.setTop((float)value);								
 							}
 							else {
+								System.out.println("Edge temperature should be between 0 and 100");
 								throw new Exception();								
 							}
 							break;
@@ -86,6 +93,7 @@ public class Option {
 								edgeTemperature.setBottom((float)value);								
 							}
 							else {
+								System.out.println("Edge temperature should be between 0 and 100");								
 								throw new Exception();								
 							}
 							break;
@@ -114,6 +122,7 @@ public class Option {
 								maxIterations = intValue; 								
 							}
 							else {
+								System.out.println("Number of iterations should be greater than or equal to zero");
 								throw new Exception();								
 							}
 							break;
@@ -123,6 +132,7 @@ public class Option {
 								stopPrecison = floatValue;								
 							}
 							else {
+								System.out.println("Precision should be greater than 0");
 								throw new Exception();
 							}
 
