@@ -307,10 +307,11 @@ public class MainPanel extends JPanel	implements
 	public void temperatureChanged(float[][] temperatures) {
 	    guiModel.setTemperatures(temperatures);
 	    simPanel.repaintPlate();
-	    stepCount++;
+
 	    
 	    if (running) {
-		    StringBuffer msg = new StringBuffer("Simluation is running. Step:");
+		    stepCount++;
+	    	StringBuffer msg = new StringBuffer("Simluation is running. Step:");
 		    msg.append(stepCount);
 		    statusPanel.setMessage(msg.toString());
 	    }
